@@ -86,7 +86,6 @@ export default function Home() {
     en: {
       readyToCapture: "Ready to capture your dream?",
       newDreamEntry: "New Dream Entry",
-      exploreDreams: "Explore Dreams",
       recentDreams: "Recent Dreams",
       searchPlaceholder: "Search dreams...",
       filterByEmotion: "Filter by Emotion",
@@ -94,12 +93,10 @@ export default function Home() {
       loading: "Loading dreams...",
       error: "Failed to load dreams. Please try again.",
       noDreams: "No dreams yet. Start by capturing your first dream!",
-      dreamPop: "Dream Pop"
     },
     hi: {
       readyToCapture: "क्या आप अपने सपने कैप्चर करने के लिए तैयार हैं?",
       newDreamEntry: "नई सपने प्रवेश",
-      exploreDreams: "सपनों का अन्वेषण करें",
       recentDreams: "हाल के सपने",
       searchPlaceholder: "सपने खोजें...",
       filterByEmotion: "भावनाओं द्वारा छांटें",
@@ -107,7 +104,6 @@ export default function Home() {
       loading: "सपने लोड हो रहे हैं...",
       error: "सपने लोड करने में विफल. कृपया पुन: प्रयास करें।",
       noDreams: "अभी तक कोई सपने नहीं। अपना पहला सपना कैप्चर करके शुरू करें!",
-      dreamPop: "ड्रीम पॉप"
     }
   }
 
@@ -189,17 +185,9 @@ export default function Home() {
                 </GradientButton>
               </Link>
 
-              <Link href="/explore" className="block w-full mt-3">
-                <GradientButton className="w-full flex items-center justify-center gap-2 gradient-button-variant">
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" />
-                    <path d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  {translations[language].exploreDreams}
-                </GradientButton>
-              </Link>
+              
 
-              <Link href="/dreampop" className="block w-full mt-3">
+              <Link href="/settings" className="block w-full mt-3">
                 <GradientButton className="w-full flex items-center justify-center gap-2 gradient-button-variant">
                   <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M15 5v2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -212,7 +200,7 @@ export default function Home() {
                     <path d="M17 15h2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  {translations[language].dreamPop}
+                  Setting
                 </GradientButton>
               </Link>
             </div>
