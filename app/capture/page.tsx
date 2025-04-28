@@ -1,5 +1,6 @@
 "use client"
 
+import { createClient } from "@/utils/supabase/client"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Edit2Icon, Sparkles, Save } from "lucide-react"
@@ -248,6 +249,27 @@ export default function DreamCapture() {
     };
   }, []);
 
+  useEffect(() => {
+  // Test Supabase connection when component mounts
+  const testConnection = async () => {
+    const supabase = createClient()
+    try {
+      const { data, error } = await supabase.from('dreams').select('id').limit(1)
+      if (error) {
+        console.error('Supabase connection test failed:', error)
+        setError('Database connection failed: ' + error.message)
+      } else {
+        console.log('Supabase connection successful')
+      }
+    } catch (err) {
+      console.error('Connection test error:', err)
+      setError('Failed to connect to database')
+    }
+  }
+
+  testConnection()
+}, []) // Empty dependency array means this runs once when component mounts
+
   const handleSave = async () => {
     try {
       setError(null)
@@ -459,52 +481,54 @@ export default function DreamCapture() {
     }
   } satisfies Record<'en' | 'hi', Record<string, string | Record<string, string>>>
 
-  const generateSummary = (): string => {
-    const t = translations[language].summaryTemplates
-    const timeOfDayKey = dream.time_of_day.toLowerCase() as keyof typeof translations.en
-    const emotionKey = dream.emotion.toLowerCase() as keyof typeof translations.en
-    
-    const timeOfDay = translations[language][timeOfDayKey]
-    const emotion = translations[language][emotionKey]
+  // ... rest of the imports and code remains the same ...
 
-    // Create reverse mappings for translations
-    const dreamCategoryMap = {
-      "Daytime Carryover Dream": translations[language].dreamCategories.daytimeCarryover,
-      "Random Dream": translations[language].dreamCategories.random,
-      "Carried Dream": translations[language].dreamCategories.carried,
-      "Learning Dream": translations[language].dreamCategories.learning,
-      "Receiving Dream": translations[language].dreamCategories.receiving,
-      "Message Dream": translations[language].dreamCategories.message,
-      "Disturbance Dream": translations[language].dreamCategories.disturbance,
-      "Blank Dream": translations[language].dreamCategories.blank
-    }
+const generateSummary = (): string => {
+  const t = translations[language].summaryTemplates
+  const timeOfDayKey = dream.time_of_day.toLowerCase() as keyof typeof translations.en
+  const emotionKey = dream.emotion.toLowerCase() as keyof typeof translations.en
+  
+  const timeOfDay = translations[language][timeOfDayKey]
+  const emotion = translations[language][emotionKey]
 
-    const dreamStateMap = {
-      "Watching a Screen": translations[language].dreamStates.watching,
-      "Character in Dream": translations[language].dreamStates.character,
-      "Both Watching and Being a Character": translations[language].dreamStates.both
-    }
-
-    const dreamTypeMap = {
-      "Normal Dream": translations[language].dreamTypes.normal,
-      "Aware but Can't Control": translations[language].dreamTypes.awareButCantControl,
-      "Lucid Dream": translations[language].dreamTypes.lucid,
-      "Liminal Dream": translations[language].dreamTypes.liminal,
-      "Vivid Dream": translations[language].dreamTypes.vivid
-    }
-
-    // Get translated values using the maps
-    const kategoriMimpi = dreamCategoryMap[dream.kategori_mimpi] || dream.kategori_mimpi
-    const keadaanMimpi = dreamStateMap[dream.keadaan_mimpi] || dream.keadaan_mimpi
-    const jenisMimpi = dreamTypeMap[dream.jenis_mimpi] || dream.jenis_mimpi
-    const ending = dream.ending ? translations[language][dream.ending as keyof typeof translations.en] : ''
-
-    return `${t.wasAt} ${dream.location} ${t.with} ${dream.people || t.noOne}. ${t.itWas} ${timeOfDay} ${t.and} ${dream.activity}. ${
-      dream.unusual_events.occurred ? `${t.somethingUnusual} ${dream.unusual_events.description}.` : ""
-    } ${dream.symbols ? `${t.sawSymbols} ${dream.symbols}.` : ""} ${t.iFelt} ${emotion}. ${t.dreamCategory} ${kategoriMimpi}. ${t.dreamState} ${keadaanMimpi}. ${t.dreamType} ${jenisMimpi}. ${t.theDream} ${ending ? `${t.dreamEnded} ${ending}` : ""}${
-      dream.final_moments ? `. ${t.lastThing} ${dream.final_moments}.` : "."
-    }`
+  // Create reverse mappings for translations with type safety
+  const dreamCategoryMap: Record<string, string> = {
+    "Daytime Carryover Dream": translations[language].dreamCategories.daytimeCarryover,
+    "Random Dream": translations[language].dreamCategories.random,
+    "Carried Dream": translations[language].dreamCategories.carried,
+    "Learning Dream": translations[language].dreamCategories.learning,
+    "Receiving Dream": translations[language].dreamCategories.receiving,
+    "Message Dream": translations[language].dreamCategories.message,
+    "Disturbance Dream": translations[language].dreamCategories.disturbance,
+    "Blank Dream": translations[language].dreamCategories.blank
   }
+
+  const dreamStateMap: Record<string, string> = {
+    "Watching a Screen": translations[language].dreamStates.watching,
+    "Character in Dream": translations[language].dreamStates.character,
+    "Both Watching and Being a Character": translations[language].dreamStates.both
+  }
+
+  const dreamTypeMap: Record<string, string> = {
+    "Normal Dream": translations[language].dreamTypes.normal,
+    "Aware but Can't Control": translations[language].dreamTypes.awareButCantControl,
+    "Lucid Dream": translations[language].dreamTypes.lucid,
+    "Liminal Dream": translations[language].dreamTypes.liminal,
+    "Vivid Dream": translations[language].dreamTypes.vivid
+  }
+
+  // Get translated values using the maps with fallbacks
+  const kategoriMimpi = dreamCategoryMap[dream.kategori_mimpi] ?? dream.kategori_mimpi
+  const keadaanMimpi = dreamStateMap[dream.keadaan_mimpi] ?? dream.keadaan_mimpi
+  const jenisMimpi = dreamTypeMap[dream.jenis_mimpi] ?? dream.jenis_mimpi
+  const ending = dream.ending ? translations[language][dream.ending as keyof typeof translations.en] : ''
+
+  return `${t.wasAt} ${dream.location} ${t.with} ${dream.people || t.noOne}. ${t.itWas} ${timeOfDay} ${t.and} ${dream.activity}. ${
+    dream.unusual_events.occurred ? `${t.somethingUnusual} ${dream.unusual_events.description}.` : ""
+  } ${dream.symbols ? `${t.sawSymbols} ${dream.symbols}.` : ""} ${t.iFelt} ${emotion}. ${t.dreamCategory} ${kategoriMimpi}. ${t.dreamState} ${keadaanMimpi}. ${t.dreamType} ${jenisMimpi}. ${t.theDream} ${ending ? `${t.dreamEnded} ${ending}` : ""}${
+    dream.final_moments ? `. ${t.lastThing} ${dream.final_moments}.` : "."
+  }`
+}
 
   const getSummaryText = (): string => {
     return dream.summary || generateSummary();
