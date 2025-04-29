@@ -308,7 +308,7 @@ export default function LandingPage() {
                 {translations[language].dreamVisualizationDesc}
               </p>
             </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4 ">
             
               <div className="mb-4 text-green-400">
                 <Sparkles className="h-8 w-8" />
@@ -398,12 +398,3 @@ export default function LandingPage() {
     </div>
   )
 }
-
-const BottomGradient = () => {
-  return (
-    <>
-      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-    </>
-  );
-};
