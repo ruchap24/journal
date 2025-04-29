@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Link from "next/link"
 import Script from "next/script"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Toaster } from "@/components/ui/sonner"
 import { Analytics } from '@vercel/analytics/react'
 import { LayoutWithConditionalSidebar } from '@/components/layout-with-conditional-sidebar'
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     title: 'DreamAI',
     description: 'Explore your dreams in an immersive 3D space',
     url: 'https://......................................................',
-    siteName: 'Somniel Dream',
+    siteName: 'DreamAI',
     locale: 'en_US',
     type: 'website',
   },

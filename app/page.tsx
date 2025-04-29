@@ -19,7 +19,7 @@ type DreamLevel = 'dreamwalker' | 'novicedreamer' | 'dreamseeker' | 'dreamweaver
                  type LevelTitles = {
                   [K in DreamLevel]: string;
                 }
-
+                
                 interface TranslationContent {
                   title: string;
                   description: string;
