@@ -279,8 +279,16 @@ export default function LandingPage() {
       <section className="py-16 md:py-24 relative z-10">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{translations[language].features}</h2>
+        
           <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto ">
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
+          <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
+      >
+            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4"> */}
+            
               <div className="mb-4 text-blue-400">
                 <Moon className="h-8 w-8" />
               </div>
@@ -288,9 +296,15 @@ export default function LandingPage() {
               <p className="text-zinc-400">
                 {translations[language].dreamJournalDesc}
               </p>
-              
-            </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
+            {/* </div> */}
+              </motion.div>
+              <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
+      >
+            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4"> */}
               <div className="mb-4 text-purple-400">
                 <Brain className="h-8 w-8" />
               </div>
@@ -298,8 +312,15 @@ export default function LandingPage() {
               <p className="text-zinc-400">
                 {translations[language].patternRecognitionDesc}
               </p>
-            </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
+            {/* </div> */}
+          </motion.div>
+          <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
+      >
+            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4"> */}
               <div className="mb-4 text-amber-400">
                 <CloudLightning className="h-8 w-8" />
               </div>
@@ -307,8 +328,16 @@ export default function LandingPage() {
               <p className="text-zinc-400">
                 {translations[language].dreamVisualizationDesc}
               </p>
-            </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4 ">
+            {/* </div> */}
+            </motion.div>
+
+            <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
+      >
+            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300  "> */}
             
               <div className="mb-4 text-green-400">
                 <Sparkles className="h-8 w-8" />
@@ -318,7 +347,8 @@ export default function LandingPage() {
                 {translations[language].dreamLevelingDesc}
               </p>
               
-            </div>
+            {/* </div> */}
+            </motion.div>
           </div>
         </div>
       </section>
