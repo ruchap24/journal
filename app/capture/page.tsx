@@ -10,7 +10,7 @@ import { BottomNav } from "@/components/bottom-nav"
 import { createDream } from "@/utils/supabase/dreams"
 import type { Dream } from "@/utils/supabase/dreams"
 
-interface DreamEntry extends Omit<Dream, 'id' | 'user_id' | 'created_at' | 'updated_at'> {}
+interface DreamEntry extends Omit<Dream, 'id' | 'user_id' | 'created_at' | 'updated_at'> {}  
 
 interface Translations {
   en: {

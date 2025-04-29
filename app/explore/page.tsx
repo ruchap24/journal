@@ -35,7 +35,7 @@ const getAuraColorValue = (level: LevelInfo) => {
     case 'gold': return new THREE.Color(255/255, 215/255, 0/255);
     default: return new THREE.Color(59/255, 130/255, 246/255);
   }
-}
+}  
 
 interface DreamEntry {
   id: string

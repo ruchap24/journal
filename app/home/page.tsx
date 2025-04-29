@@ -112,7 +112,7 @@ export default function Home() {
       {/* Only show header on mobile */}
       <div className="md:hidden">
         <Header />
-      </div>
+      </div>  
 
       <main className="container mx-auto px-4 py-6 md:py-12 md:max-w-7xl">
         {/* Mobile layout - search bar at top */}
@@ -142,7 +142,7 @@ export default function Home() {
               {searchTerm || activeFilters.length > 0 ? "Search Results" : translations[language].recentDreams}
             </h2>
           </div>
-        </div>
+        </div> 
 
         <div className="md:grid md:grid-cols-12 md:gap-8">
           <section className="mb-8 md:col-span-4 md:mb-0">

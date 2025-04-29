@@ -73,7 +73,7 @@ export function SidebarNav() {
             width={32}
             height={32}
             className="h-8 w-8"
-            src="/newlogo.svg"
+            src="/newlogo.svg"       
             alt="Logo"
             draggable="false"
           />

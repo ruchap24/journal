@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Somniel - Dream Journal",
-    short_name: "Somniel",
+    name: "DreamAI",
+    short_name: "DreamAI",
     description: "A progressive web app for dream journaling and self-discovery",
     start_url: "/",
     display: "standalone",
