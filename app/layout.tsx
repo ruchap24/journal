@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "Dream Journal",
+  title: "DreamAI",
   description: "A progressive web app for dream journaling and self-discovery",
   generator: 'v0.dev',
   manifest: '/manifest.json',
