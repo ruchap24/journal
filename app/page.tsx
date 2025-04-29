@@ -225,7 +225,7 @@ export default function LandingPage() {
           <div className="w-8 h-8 relative">
             <Image
               src="/newlogo.svg"
-              alt="Aetherial Logo"       //change it to  ...............................
+              alt="DreamAi Logo"    
               fill
               className="object-contain" 
               priority
