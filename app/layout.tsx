@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "Somniel - Dream Journal",
+  title: "Dream Journal",
   description: "A progressive web app for dream journaling and self-discovery",
   generator: 'v0.dev',
   manifest: '/manifest.json',
@@ -35,11 +35,11 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Somniel'
+    title: 'DreamAI'
   },
   metadataBase: new URL('https://......................................................'),
   openGraph: {
-    title: 'Dream Explorer',
+    title: 'DreamAI',
     description: 'Explore your dreams in an immersive 3D space',
     url: 'https://......................................................',
     siteName: 'Somniel Dream',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dream Explorer',
+    title: 'DreamAI',
     description: 'Explore your dreams in an immersive 3D space',
   },
 }

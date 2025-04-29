@@ -11,7 +11,7 @@ import type { Dream } from "@/utils/supabase/dreams"
 
 const translations = {
   en: {
-    loading: "Loading dream...",
+    loading: "Loading dream...",   
     dreamDetails: "Dream Details",
     backToDreams: "Back to Dreams",
     dream: "Dream",

@@ -3,7 +3,16 @@
 import { useState, useEffect, useRef } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { getDreams } from "@/utils/supabase/dreams"
+import { useMemo } from "react" 
 
+
+interface User {
+  id: string;
+  email?: string;
+  // Add other user properties
+}
+
+// Update the useState line
 interface DreamLevelProfileProps {
   language: 'en' | 'hi'
   dreamCount?: number
@@ -22,52 +31,52 @@ export interface LevelInfo {
 export const DREAM_LEVELS: LevelInfo[] = [
   {
     title: "Dreamwalker",
-    minEntries: 1,
+    minEntries: 0,
     maxEntries: 10,
-    auraColor: "red",
-    auraGradient: "from-red-500/20 via-red-500/10 to-transparent"
-  },
-  {
-    title: "Dream Explorer",
-    minEntries: 11,
-    maxEntries: 25,
-    auraColor: "orange",
-    auraGradient: "from-orange-500/20 via-orange-500/10 to-transparent"
-  },
-  {
-    title: "Dream Voyager",
-    minEntries: 26,
-    maxEntries: 50,
-    auraColor: "white",
-    auraGradient: "from-white/20 via-white/10 to-transparent"
-  },
-  {
-    title: "Dream Navigator",
-    minEntries: 51,
-    maxEntries: 100,
-    auraColor: "green",
-    auraGradient: "from-green-500/20 via-green-500/10 to-transparent"
-  },
-  {
-    title: "Dream Guardian",
-    minEntries: 101,
-    maxEntries: 200,
     auraColor: "blue",
     auraGradient: "from-blue-500/20 via-blue-500/10 to-transparent"
   },
   {
+    title: "Novice Dreamer",
+    minEntries: 11,
+    maxEntries: 25,
+    auraColor: "green",
+    auraGradient: "from-green-500/20 via-green-500/10 to-transparent"
+  },
+  {
+    title: "Dream Seeker",
+    minEntries: 26,
+    maxEntries: 50,
+    auraColor: "purple",
+    auraGradient: "from-purple-500/20 via-purple-500/10 to-transparent"
+  },
+  {
+    title: "Dream Weaver",
+    minEntries: 51,
+    maxEntries: 100,
+    auraColor: "orange",
+    auraGradient: "from-orange-500/20 via-orange-500/10 to-transparent"
+  },
+  {
     title: "Dream Sage",
-    minEntries: 201,
-    maxEntries: 365,
+    minEntries: 101,
+    maxEntries: 200,
     auraColor: "indigo",
     auraGradient: "from-indigo-500/20 via-indigo-500/10 to-transparent"
+  },
+  {
+    title: "Dream Master",
+    minEntries: 201,
+    maxEntries: 365,
+    auraColor: "red",
+    auraGradient: "from-red-500/20 via-red-500/10 to-transparent"
   },
   {
     title: "Dream Oracle",
     minEntries: 366,
     maxEntries: 499,
-    auraColor: "purple",
-    auraGradient: "from-purple-500/20 via-purple-500/10 to-transparent"
+    auraColor: "white",
+    auraGradient: "from-white/20 via-white/10 to-transparent"
   },
   {
     title: "Ascended Dreamer",
@@ -79,13 +88,14 @@ export const DREAM_LEVELS: LevelInfo[] = [
 ]
 
 export function DreamLevelProfile({ language, dreamCount: propDreamCount, onLevelChange }: DreamLevelProfileProps) {
-  const [user, setUser] = useState<any>(null)
+  // Replace the existing user state
+const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [dreamCount, setDreamCount] = useState(propDreamCount || 0)
   const [currentLevel, setCurrentLevel] = useState<LevelInfo>(DREAM_LEVELS[0])
   const [progress, setProgress] = useState(0)
   
-  const translations = {
+  const translations = useMemo(() => ({
     en: {
       profile: "Dream Level",
       level: "Level",
@@ -102,7 +112,7 @@ export function DreamLevelProfile({ language, dreamCount: propDreamCount, onLeve
       guest: "अतिथि",
       entriesNeeded: "आवश्यक"
     }
-  }
+  }), []);
 
   // Calculate level based on dream count
   const calculateLevel = (count: number) => {
@@ -145,6 +155,7 @@ export function DreamLevelProfile({ language, dreamCount: propDreamCount, onLeve
   useEffect(() => {
     const loadUserData = async () => {
       setIsLoading(true)
+      
       try {
         const supabase = createClient()
         

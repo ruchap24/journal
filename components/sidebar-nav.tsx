@@ -74,10 +74,10 @@ export function SidebarNav() {
             height={32}
             className="h-8 w-8"
             src="/newlogo.svg"
-            alt="Somniel Logo"
+            alt="Logo"
             draggable="false"
           />
-          <span className="text-2xl font-semibold">Solmniel</span>
+          <span className="text-2xl font-semibold">DreamAI</span>
         </div>
         
         {/* Navigation Links */}
@@ -106,26 +106,7 @@ export function SidebarNav() {
             <span className="font-medium">{translations[language].capture}</span>
           </Link>
           
-          <Link 
-            href="/explore" 
-            prefetch={true}
-            className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors ${
-              isActive("/explore") 
-                ? "bg-zinc-800/80 text-white" 
-                : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
-            }`}
-            onMouseEnter={() => {
-              // Preload the explore page when hovering over the link
-              const link = document.createElement('link');
-              link.rel = 'preload';
-              link.as = 'document';
-              link.href = '/explore';
-              document.head.appendChild(link);
-            }}
-          >
-            <GlobeIcon className="h-5 w-5" />
-            <span className="font-medium">{translations[language].explore}</span>
-          </Link>
+          
           
           <Link 
             href="/settings" 
@@ -142,7 +123,9 @@ export function SidebarNav() {
         
         {/* Version info at bottom */}
         <div className="pt-4 mt-auto border-t border-zinc-800/50">
-          <p className="text-xs text-zinc-500 px-3">linkedin id</p> //add linledin id
+          <p className="text-xs text-zinc-500 px-3"><a href="https://www.linkedin.com/in/ruchap18/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                    Rucha Patil
+                    </a></p>
         </div>
       </div>
     </aside>

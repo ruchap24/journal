@@ -278,8 +278,8 @@ export default function LandingPage() {
       <section className="py-16 md:py-24 relative z-10">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{translations[language].features}</h2>
-          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50">
+          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto ">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
               <div className="mb-4 text-blue-400">
                 <Moon className="h-8 w-8" />
               </div>
@@ -288,7 +288,7 @@ export default function LandingPage() {
                 {translations[language].dreamJournalDesc}
               </p>
             </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
               <div className="mb-4 text-purple-400">
                 <Brain className="h-8 w-8" />
               </div>
@@ -297,7 +297,7 @@ export default function LandingPage() {
                 {translations[language].patternRecognitionDesc}
               </p>
             </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
               <div className="mb-4 text-amber-400">
                 <CloudLightning className="h-8 w-8" />
               </div>
@@ -306,7 +306,7 @@ export default function LandingPage() {
                 {translations[language].dreamVisualizationDesc}
               </p>
             </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
               <div className="mb-4 text-green-400">
                 <Sparkles className="h-8 w-8" />
               </div>

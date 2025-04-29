@@ -93,7 +93,7 @@ export default function SettingsPage() {
       tags: "Tags",
       mood: "Mood",
       lucidity: "Lucidity",
-      vividness: "Vividness"
+      vividness: "Vividness"  
     },
     hi: {
       settings: "सेटिंग्स",
@@ -623,7 +623,7 @@ export default function SettingsPage() {
             
             <div className="space-y-4">
               <div>
-                <h3 className="font-medium">Somniel - Dream Journal</h3>
+                <h3 className="font-medium">DreamAI - Unveiling the Depths of Your Imagination.</h3>
                 <p className="text-sm text-zinc-400">{translations[language].version} 1.0.0</p>
               </div>
               
@@ -641,6 +641,12 @@ export default function SettingsPage() {
                     <span className="text-sm text-zinc-500">X:</span>
                     <a href="https://x.com/_ruchiii" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
                       @_ruchiii
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-zinc-500">Linkedin:</span>
+                    <a href="https://www.linkedin.com/in/ruchap18/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                    Rucha
                     </a>
                   </div>
                 </div>
