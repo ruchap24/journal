@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, type RefObject } from "react"
 import Link from "next/link"
+import { motion } from "framer-motion"
 import { Cover } from "@/components/Cover"
 import Image from "next/image"
 import { ArrowRight, Moon, Brain, Sparkles, CloudLightning } from "lucide-react"
@@ -279,7 +280,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{translations[language].features}</h2>
           <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto ">
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
               <div className="mb-4 text-blue-400">
                 <Moon className="h-8 w-8" />
               </div>
@@ -287,8 +288,9 @@ export default function LandingPage() {
               <p className="text-zinc-400">
                 {translations[language].dreamJournalDesc}
               </p>
+              
             </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
               <div className="mb-4 text-purple-400">
                 <Brain className="h-8 w-8" />
               </div>
@@ -297,7 +299,7 @@ export default function LandingPage() {
                 {translations[language].patternRecognitionDesc}
               </p>
             </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
               <div className="mb-4 text-amber-400">
                 <CloudLightning className="h-8 w-8" />
               </div>
@@ -306,7 +308,8 @@ export default function LandingPage() {
                 {translations[language].dreamVisualizationDesc}
               </p>
             </div>
-            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-x-2">
+            <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4">
+            
               <div className="mb-4 text-green-400">
                 <Sparkles className="h-8 w-8" />
               </div>
@@ -314,6 +317,7 @@ export default function LandingPage() {
               <p className="text-zinc-400">
                 {translations[language].dreamLevelingDesc}
               </p>
+              
             </div>
           </div>
         </div>
@@ -395,3 +399,11 @@ export default function LandingPage() {
   )
 }
 
+const BottomGradient = () => {
+  return (
+    <>
+      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+    </>
+  );
+};
