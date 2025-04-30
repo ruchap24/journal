@@ -10,51 +10,54 @@ import { GradientButton } from "@/components/ui/gradient-button"
 import { DreamSphere } from "@/components/dream-sphere"
 import { DREAM_LEVELS, type LevelInfo } from "@/components/dream-level-profile"
 import { Meteors } from "@/components/ui/meteors"
+import { FloatingStars } from "@/components/floatingstars"
+import { ScrollToTop } from "@/components/scrolltop"
+import { debounce } from "lodash"
 import "./styles.css"
 
 // Define types for level titles to ensure type safety
 type DreamLevel = 'dreamwalker' | 'novicedreamer' | 'dreamseeker' | 'dreamweaver' | 
                  'dreamsage' | 'dreammaster' | 'dreamoracle' | 'ascendeddreamer';
 
-                 type LevelTitles = {
-                  [K in DreamLevel]: string;
-                }
-                
-                interface TranslationContent {
-                  title: string;
-                  description: string;
-                  startDreaming: string;
-                  joinNow: string;
-                  signIn: string;
-                  signUp: string;
-                  features: string;
-                  readyToStart: string;
-                  explore: string;
-                  startExploring: string;
-                  dreamJournal: string;
-                  dreamJournalDesc: string;
-                  patternRecognition: string;
-                  patternRecognitionDesc: string;
-                  dreamVisualization: string;
-                  dreamVisualizationDesc: string;
-                  exploreDescription: string;
-                  dreamLeveling: string;
-                  dreamLevelingDesc: string;
-                  progressSystem: string;
-                  progressSystemTitle: string;
-                  progressSystemDesc: string;
-                  levelFeatures: string;
-                  levelFeaturesDesc: string;
-                  dreamLevelProgression: string;
-                  dreamLevelDesc: string;
-                  entriesRequired: string;
-                  levelTitles: LevelTitles;
-                }
-                
-                interface Translations {
-                  en: TranslationContent;
-                  hi: TranslationContent;
-                }
+type LevelTitles = {
+  [K in DreamLevel]: string;
+}
+
+interface TranslationContent {
+  title: string;
+  description: string;
+  startDreaming: string;
+  joinNow: string;
+  signIn: string;
+  signUp: string;
+  features: string;
+  readyToStart: string;
+  explore: string;
+  startExploring: string;
+  dreamJournal: string;
+  dreamJournalDesc: string;
+  patternRecognition: string;
+  patternRecognitionDesc: string;
+  dreamVisualization: string;
+  dreamVisualizationDesc: string;
+  exploreDescription: string;
+  dreamLeveling: string;
+  dreamLevelingDesc: string;
+  progressSystem: string;
+  progressSystemTitle: string;
+  progressSystemDesc: string;
+  levelFeatures: string;
+  levelFeaturesDesc: string;
+  dreamLevelProgression: string;
+  dreamLevelDesc: string;
+  entriesRequired: string;
+  levelTitles: LevelTitles;
+}
+
+interface Translations {
+  en: TranslationContent;
+  hi: TranslationContent;
+}
 
 // Get the actual color value for the aura
 const getAuraColorValue = (level: LevelInfo) => {
@@ -71,8 +74,8 @@ const getAuraColorValue = (level: LevelInfo) => {
   }
 }
 
-// Custom hook for intersection observer
-function useElementOnScreen(options = {}): [RefObject<HTMLDivElement | null>, boolean] {
+// Custom hook for intersection observer with improved performance
+function useElementOnScreen(options = { rootMargin: '100px', threshold: 0.2 }): [RefObject<HTMLDivElement | null>, boolean] {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -81,30 +84,66 @@ function useElementOnScreen(options = {}): [RefObject<HTMLDivElement | null>, bo
       setIsVisible(entry.isIntersecting)
     }, options)
 
-    const currentElement = containerRef.current    //
+    const currentElement = containerRef.current
     if (currentElement) observer.observe(currentElement)
 
     return () => {
       if (currentElement) observer.unobserve(currentElement)
     }
-  }, [options])
+  }, [options.rootMargin, options.threshold])
 
   return [containerRef, isVisible]
 }
 
 export default function LandingPage() {
   const [language, setLanguage] = useState<'en' | 'hi'>('en');
+  const [loadFeatures, setLoadFeatures] = useState(false);
+  const [loadLevels, setLoadLevels] = useState(false);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const levelsRef = useRef<HTMLDivElement>(null);
 
   // Load language from local storage on component mount
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language') as 'en' | 'hi' | null;
-    if (savedLanguage) {
+    if (savedLanguage && savedLanguage !== language) {
       setLanguage(savedLanguage);
     }
+  }, [language]);
+
+  // Progressive loading for better performance
+  useEffect(() => {
+    const featuresObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLoadFeatures(true);
+          featuresObserver.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    const levelsObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLoadLevels(true);
+          levelsObserver.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    if (featuresRef.current) featuresObserver.observe(featuresRef.current);
+    if (levelsRef.current) levelsObserver.observe(levelsRef.current);
+
+    return () => {
+      featuresObserver.disconnect();
+      levelsObserver.disconnect();
+    };
   }, []);
 
   // Save language to local storage when it changes
   const handleLanguageChange = (lang: 'en' | 'hi') => {
+    if (lang === language) return; // Prevent unnecessary updates
     setLanguage(lang);
     localStorage.setItem('language', lang);
     // Dispatch custom event for other components
@@ -120,6 +159,16 @@ export default function LandingPage() {
       document.body.classList.remove('landing-page');
       document.documentElement.classList.remove('landing-page');
     };
+  }, []);
+
+  // Debounced scroll handler for performance
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      // Any scroll-based animations or effects can go here
+    }, 16); // ~60fps
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Translations
@@ -150,19 +199,19 @@ export default function LandingPage() {
       levelFeatures: "Level Features",
       levelFeaturesDesc: "• Unique titles from Dreamwalker to Ascended Dreamer\n• Beautiful aura colors that evolve with your progress\n• Visual progress tracking with dynamic spheres\n• Personalized experience that grows with you",
       dreamLevelProgression: "Dream Level Progression",
-    dreamLevelDesc: "From Dreamwalker to Ascended Dreamer, each level unlocks new auras reflecting your journey through the dream realm.",
-    entriesRequired: "entries required",
-    levelTitles: {
-      dreamwalker: "Dreamwalker",
-      novicedreamer: "Novice Dreamer",
-      dreamseeker: "Dream Seeker",
-      dreamweaver: "Dream Weaver",
-      dreamsage: "Dream Sage",
-      dreammaster: "Dream Master",
-      dreamoracle: "Dream Oracle",
-      ascendeddreamer: "Ascended Dreamer"
+      dreamLevelDesc: "From Dreamwalker to Ascended Dreamer, each level unlocks new auras reflecting your journey through the dream realm.",
+      entriesRequired: "entries required",
+      levelTitles: {
+        dreamwalker: "Dreamwalker",
+        novicedreamer: "Novice Dreamer",
+        dreamseeker: "Dream Seeker",
+        dreamweaver: "Dream Weaver",
+        dreamsage: "Dream Sage",
+        dreammaster: "Dream Master",
+        dreamoracle: "Dream Oracle",
+        ascendeddreamer: "Ascended Dreamer"
+      },
     },
-  },
     hi: {
       title: "नींद की कहानियों को अनलॉक करें",
       description: "एक सुरुचिपूर्ण और प्रज्ञापूर्ण सपनों की डायरी, जिसे आपको अपने सपनों को आसानी से पकड़ने, खोजने और समझने में मदद करने के लिए डिज़ाइन किया गया है।",
@@ -185,41 +234,36 @@ export default function LandingPage() {
       dreamLevelingDesc: "जर्नलिंग करते समय विशिष्ट स्तरों से गुजरें, ड्रीमवॉकर से लेकर एसेंडेड ड्रीमर तक। प्रत्येक स्तर के साथ एक विशिष्ट ऑरा कलर और शीर्षक आता है।",
       progressSystem: "प्रगति प्रणाली",
       progressSystemTitle: "अपनी सपनों की यात्रा को बढ़ाएं",
-    progressSystemDesc: "हमारी अनूठी लेवलिंग सिस्टम के साथ एक सपनेदार के रूप में अपनी वृद्धि को ट्रैक करें।",
-    levelFeatures: "स्तर विशेषताएं",
-    levelFeaturesDesc: "• ड्रीमवॉकर से एसेंडेड ड्रीमर तक अनूठे शीर्षक\n• सुंदर ऑरा कलर जो आपकी प्रगति के साथ विकसित होते हैं\n• गतिशील गोलों के साथ विजुअल प्रगति ट्रैकिंग\n• व्यक्तिगत अनुभव जो आपके साथ बढ़ता है",
-    dreamLevelProgression: "सपनों का स्तर प्रगति",
-    dreamLevelDesc: "ड्रीमवॉकर से एसेंडेड ड्रीमर तक, प्रत्येक स्तर सपनों की दुनिया में आपकी यात्रा को दर्शाने वाले नए ऑरा को अनलॉक करता है।",
-    entriesRequired: "आवश्यक प्रविष्टियां",
-    levelTitles: {
-      dreamwalker: "ड्रीमवॉकर",
-      novicedreamer: "नौसिखिया ड्रीमर",
-      dreamseeker: "ड्रीम सीकर",
-      dreamweaver: "ड्रीम वीवर",
-      dreamsage: "ड्रीम सेज",
-      dreammaster: "ड्रीम मास्टर",
-      dreamoracle: "ड्रीम ओरेकल",
-      ascendeddreamer: "एसेंडेड ड्रीमर"
-    }
+      progressSystemDesc: "हमारी अनूठी लेवलिंग सिस्टम के साथ एक सपनेदार के रूप में अपनी वृद्धि को ट्रैक करें।",
+      levelFeatures: "स्तर विशेषताएं",
+      levelFeaturesDesc: "• ड्रीमवॉकर से एसेंडेड ड्रीमर तक अनूठे शीर्षक\n• सुंदर ऑरा कलर जो आपकी प्रगति के साथ विकसित होते हैं\n• गतिशील गोलों के साथ विजुअल प्रगति ट्रैकिंग\n• व्यक्तिगत अनुभव जो आपके साथ बढ़ता है",
+      dreamLevelProgression: "सपनों का स्तर प्रगति",
+      dreamLevelDesc: "ड्रीमवॉकर से एसेंडेड ड्रीमर तक, प्रत्येक स्तर सपनों की दुनिया में आपकी यात्रा को दर्शाने वाले नए ऑरा को अनलॉक करता है।",
+      entriesRequired: "आवश्यक प्रविष्टियां",
+      levelTitles: {
+        dreamwalker: "ड्रीमवॉकर",
+        novicedreamer: "नौसिखिया ड्रीमर",
+        dreamseeker: "ड्रीम सीकर",
+        dreamweaver: "ड्रीम वीवर",
+        dreamsage: "ड्रीम सेज",
+        dreammaster: "ड्रीम मास्टर",
+        dreamoracle: "ड्रीम ओरेकल",
+        ascendeddreamer: "एसेंडेड ड्रीमर"
+      }
     }
   }
 
-  // Load language from localStorage
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as 'en' | 'hi' | null
-    if (savedLanguage) {
-      setLanguage(savedLanguage)
-    }
-  }, [])
-
-
   return (
     <div className="min-h-screen landing-page relative">
-      {/* Meteors Background */}
-      <Meteors number={50} className="z-0" />
+      {/* Optimized Background Elements */}
+      <FloatingStars count={40} />
+      <Meteors number={100} className="z-0" />
+      <ScrollToTop />
+      
+  
       
       {/* Header with Logo and Language Switcher */}
-      <div className="flex items-center justify-between p-4 border-b border-zinc-800/50 relative z-10">
+      <div className="flex items-center justify-between p-4 border-b relative z-10">
         {/* Logo and Text */}
         <Link href="/" className="flex items-center gap-3">
           <div className="w-8 h-8 relative">
@@ -252,11 +296,11 @@ export default function LandingPage() {
       </div>
 
       {/* Hero Section */}
-      <header className="relative overflow-hidden z-10">
+      <header className="py-16 md:py-24 relative overflow-hidden z-10 bg-gray-900/80">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400"> {translations[language].title}
-            <Cover><span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-400">DreamAI</span></Cover>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-400">DreamAI</span>
             </h1>
             <p className="text-lg md:text-xl text-zinc-400 mb-8">
               {translations[language].description}
@@ -276,7 +320,7 @@ export default function LandingPage() {
       </header>
 
       {/* Features Section */}
-      <section className="py-16 md:py-24 relative z-10">
+      <section className="py-16 md:py-24 relative overflow-hidden z-10 ">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{translations[language].features}</h2>
         
@@ -286,7 +330,7 @@ export default function LandingPage() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
-      >
+       >
             {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4"> */}
             
               <div className="mb-4 text-blue-400">
@@ -370,7 +414,7 @@ export default function LandingPage() {
             {/* Level Cards */}
       <div className="grid gap-4">
         {DREAM_LEVELS.map((level, index) => {
-          const [ref, isVisible] = useElementOnScreen({ threshold: 0.2 })
+          const [ref, isVisible] = useElementOnScreen({ threshold: 0.2, rootMargin: '100px' })
 
           const levelKey = level.title.toLowerCase().replace(/\s+/g, '') as DreamLevel
 
@@ -405,14 +449,13 @@ export default function LandingPage() {
                     </div>
                   </div>
                 )
-              })}
-            </div>
+              })}            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="bg-zinc-900/50 py-8 md:py-16 relative z-10">
+      <div className= "py-8 md:py-16 relative z-10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{translations[language].readyToStart}</h2>
           <p className="text-lg text-zinc-400 mb-6 max-w-2xl mx-auto">
@@ -424,7 +467,7 @@ export default function LandingPage() {
             </GradientButton>
           </Link>
         </div>
-      </section>
+      </div>
     </div>
   )
 }
