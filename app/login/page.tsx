@@ -233,16 +233,26 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-black">
-      <header className="p-4">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-black via-indigo-950/20 to-black overflow-hidden relative">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 z-0 opacity-20">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] animate-pulse" style={{ animationDuration: '8s' }}></div>
+        <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-purple-500 rounded-full mix-blend-screen filter blur-[60px] animate-pulse" style={{ animationDuration: '10s' }}></div>
+        <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-screen filter blur-[70px] animate-pulse" style={{ animationDuration: '12s' }}></div>
+      </div>
+
+      {/* Grid overlay for a more tech/dream-like feel */}
+      <div className="absolute inset-0 z-0 bg-grid-pattern opacity-10"></div>
+
+      <header className="p-4 relative z-10">
         <Link href="/" className="flex items-center text-zinc-400 hover:text-white transition-colors">
           <ArrowLeft className="w-5 h-5 mr-2" />
           <span>{translations[language].backHome}</span>
         </Link>
       </header>
 
-      <main className="flex-grow flex items-center justify-center p-4">
-        <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/50 backdrop-blur-sm rounded-xl border border-zinc-800/50">
+      <main className="flex-grow flex items-center justify-center p-4 relative z-10">
+        <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/50 backdrop-blur-sm rounded-xl border border-zinc-800/50 shadow-xl">
           <div className="text-center">
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-500">
               {translations[language].login}
@@ -315,6 +325,7 @@ export default function LoginPage() {
                   )}
                 </Button>
               </div>
+
             )}
 
             <GradientButton
