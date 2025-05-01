@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { createClient } from "@/utils/supabase/client"
+import { FloatingStars } from "@/components/floatingstars"
+import { Meteors } from "@/components/ui/meteors"
 import {
   Dialog,
   DialogContent,
@@ -234,6 +236,8 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-black via-indigo-950/20 to-black overflow-hidden relative">
+      <FloatingStars count={40} />
+      <Meteors number={100} className="z-0" />
       {/* Animated background elements */}
       <div className="absolute inset-0 z-0 opacity-20">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] animate-pulse" style={{ animationDuration: '8s' }}></div>
