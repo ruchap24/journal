@@ -7,6 +7,8 @@ import Link from "next/link"
 import { DreamForm } from "@/components/dream-form"
 import { getDreamById } from "@/utils/supabase/dreams"
 import type { Dream } from "@/utils/supabase/dreams"
+import { Meteors } from "@/components/ui/meteors"
+import { FloatingStars } from "@/components/floatingstars"
 
 const translations = {
   en: {
@@ -102,6 +104,8 @@ export default function EditDream() {
 
   return (
     <div className="min-h-screen">
+      <FloatingStars count={40} />
+      <Meteors number={100} className="z-0" />
       <header className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-zinc-800 px-4 py-3">
         <div className="flex items-center max-w-6xl mx-auto">
           <Link href={`/dream/${id}`} className="p-2">
