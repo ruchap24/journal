@@ -304,7 +304,7 @@ export default function LandingPage() {
               {translations[language].description}
             </p>
             <div className="flex justify-center">
-              <Link href="/login" className="w-full sm:w-auto">
+              <Link href="/home" className="w-full sm:w-auto">
                 <GradientButton className="w-full px-8 py-3 text-lg flex items-center justify-center gap-2 group">
                   {translations[language].startDreaming}
                   <span className="inline-block transition-transform group-hover:translate-x-1">

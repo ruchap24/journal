@@ -76,9 +76,9 @@ export function SidebarNav() {
             src="/newlogo.svg"       
             alt="Logo"
             draggable="false"
-            onClick={() => window.location.href = 'https://journal-ruchap24s-projects.vercel.app/'}
+            
           />
-          <Link href="https://journal-ruchap24s-projects.vercel.app/">
+          <Link href="/home">
           <span className="text-2xl font-semibold">Somniel</span>
           </Link>
         </div>
