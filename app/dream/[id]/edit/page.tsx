@@ -101,7 +101,6 @@ export default function EditDream() {
       </div>
     )
   }
-
   return (
     <div className="min-h-screen">
       <FloatingStars count={40} />
