@@ -1,8 +1,8 @@
-# DreamAI
+# Somniel
 
 A beautiful 3D dream journal web application with visualization and exploration features.
 
-![ Dream Journal]
+![Somniel - Dream Journal]
 
 ## Features
 

@@ -46,13 +46,13 @@ export function SidebarNav() {
     en: {
       home: "Home",
       capture: "Capture",
-      explore: "Explore",
+     
       settings: "Settings"
     },
     hi: {
       home: "होम",
       capture: "कैप्चर",
-      explore: "एक्सप्लोर",
+     
       settings: "सेटिंग्स"
     }
   }
@@ -77,7 +77,7 @@ export function SidebarNav() {
             alt="Logo"
             draggable="false"
           />
-          <span className="text-2xl font-semibold">DreamAI</span>
+          <span className="text-2xl font-semibold">Somniel</span>
         </div>
         
         {/* Navigation Links */}

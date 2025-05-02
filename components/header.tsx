@@ -15,7 +15,7 @@ export function Header() {
             src="/newlogo.svg"
             alt="Somniel Logo"
           />
-          <span className="text-xl font-semibold">DreamAI</span>
+          <span className="text-xl font-semibold">Somniel</span>
         </Link>
 
         <div className="flex items-center">

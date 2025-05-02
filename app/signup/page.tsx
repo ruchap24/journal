@@ -162,7 +162,7 @@ export default function SignupPage() {
         }
         console.error("Verification resend error:", error.message)
         return
-      }
+      }  
 
       toast.success(translations[language].verificationSent)
       // Set cooldown after successful send

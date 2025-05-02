@@ -252,15 +252,13 @@ export default function LandingPage() {
       }
     }
   }
-
+  
   return (
     <div className="min-h-screen landing-page relative">
       {/* Optimized Background Elements */}
       <FloatingStars count={40} />
       <Meteors number={100} className="z-0" />
       <ScrollToTop />
-      
-  
       
       {/* Header with Logo and Language Switcher */}
       <div className="flex items-center justify-between p-4 border-b relative z-10">
@@ -269,13 +267,13 @@ export default function LandingPage() {
           <div className="w-8 h-8 relative">
             <Image
               src="/newlogo.svg"
-              alt="DreamAi Logo"    
+              alt="Somniel Logo"    
               fill
               className="object-contain" 
               priority
             />
           </div>
-          <span className="text-white text-lg font-semibold">DreamAI</span>
+          <span className="text-white text-lg font-semibold">Somniel</span>
         </Link>
         
         {/* Language Switcher */}
@@ -300,7 +298,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400"> {translations[language].title}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-400">DreamAI</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-400">Somniel</span>
             </h1>
             <p className="text-lg md:text-xl text-zinc-400 mb-8">
               {translations[language].description}
@@ -331,7 +329,6 @@ export default function LandingPage() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
        >
-            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4"> */}
             
               <div className="mb-4 text-blue-400">
                 <Moon className="h-8 w-8" />
@@ -348,7 +345,6 @@ export default function LandingPage() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
       >
-            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4"> */}
               <div className="mb-4 text-purple-400">
                 <Brain className="h-8 w-8" />
               </div>
@@ -364,7 +360,6 @@ export default function LandingPage() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
       >
-            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300 hover:-translate-y-4"> */}
               <div className="mb-4 text-amber-400">
                 <CloudLightning className="h-8 w-8" />
               </div>
@@ -381,8 +376,6 @@ export default function LandingPage() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md hover:shadow-purple-500/30 transition-all duration-500"
       >
-            {/* <div className="bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 cursor-pointer transform 0.2s transition-all duration-300  "> */}
-            
               <div className="mb-4 text-green-400">
                 <Sparkles className="h-8 w-8" />
               </div>

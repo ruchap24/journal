@@ -13,7 +13,7 @@ import { getDreams, deleteAllDreams } from "@/utils/supabase/dreams"
 import type { Dream } from "@/utils/supabase/dreams"
 import { toast } from "sonner"
 import { DreamSphere } from "@/components/dream-sphere"
-import { FloatingStars } from "@/components/floatingstars"
+import { FloatingStars } from "@/components/floatingstars" 
 import { Meteors } from "@/components/ui/meteors"
 
 // Daily generation limit - must match the API
@@ -23,7 +23,7 @@ export default function SettingsPage() {
   const router = useRouter()
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [isClearing, setIsClearing] = useState(false)
-  const [language, setLanguage] = useState<'en' | 'hi'>('en')
+  const [language, setLanguage] = useState<'en' | 'hi'>('en') 
   const [user, setUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [dreams, setDreams] = useState<Dream[]>([])
@@ -89,13 +89,13 @@ export default function SettingsPage() {
       english: "English",
       hindi: "हिंदी",
       dreamJournal: "Dream Journal",
-      exportedOn: "Exported on",  //hindi lang done till here
+      exportedOn: "Exported on",
       summary: "Summary",
       interpretation: "Interpretation",
       tags: "Tags",
       mood: "Mood",
       lucidity: "Lucidity",
-      vividness: "Vividness"  
+      vividness: "Vividness"
     },
     hi: {
       settings: "सेटिंग्स",
@@ -151,14 +151,11 @@ export default function SettingsPage() {
       await deleteAllDreams()
       setShowConfirmation(false)
       setDreams([]) // Update local state
-      toast.success(language === 'en' ? "Dream journal cleared" : "स्वप्न जर्नल साफ़ कर दिया गया", {
-        description: language === 'en' ? "All dream entries have been deleted" : "सभी स्वप्न प्रविष्टियाँ हटा दी गई हैं",
-        duration: 3000,
-        icon: <InfoIcon className="h-4 w-4 text-green-500" />
+      toast.success(language === 'en' ? "Dream journal cleared" : "स्वप्न जर्नल साफ़ कर दिया गया", { description: language === 'en' ? "All dream entries have been deleted" : "सभी स्वप्न प्रविष्टियाँ हटा दी गई हैं"
       })
     } catch (error) {
       console.error('Error clearing dreams:', error)
-      toast.error(language === 'en' ? "Failed to clear dreams" : "सपने साफ़ करने में विफल",)
+      toast.error(language === 'en' ? "Failed to clear dreams" : "सपने साफ़ करने में विफल")
     } finally {
       setIsClearing(false)
     }
@@ -182,7 +179,7 @@ export default function SettingsPage() {
       storageArea: localStorage
     }))
     
-    toast.success(newLanguage === 'en' ? "Language changed to English" : "भाषा हिंदी में बदल गई है", )
+    toast.success(newLanguage === 'en' ? "Language changed to English" : "भाषा हिंदी में बदल गई है")
   }
 
   const handleSignOut = async () => {
@@ -192,7 +189,7 @@ export default function SettingsPage() {
       router.push('/')
     } catch (error) {
       console.error('Error signing out:', error)
-      toast.error(language === 'en' ? 'Error signing out' : 'साइन आउट करने में त्रुटि', )
+      toast.error(language === 'en' ? 'Error signing out' : 'साइन आउट करने में त्रुटि')
     }
   }
 
@@ -349,7 +346,7 @@ export default function SettingsPage() {
         <body>
           <div class="header">
             <h1>Dream Journal</h1>
-            <p>${translations[language].exportedOn} ${new Date().toLocaleDateString(language === 'en' ? 'en-US' : 'en-US', {
+            <p>${translations[language].exportedOn} ${new Date().toLocaleDateString(language === 'en' ? 'en-US' : 'hi-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -359,7 +356,7 @@ export default function SettingsPage() {
           ${sortedDreams.map(dream => `
             <div class="dream-entry">
               <div class="title">${dream.title || ''}</div>
-              <div class="date">${new Date(dream.date).toLocaleDateString(language === 'en' ? 'en-US' : 'en-US', {
+              <div class="date">${new Date(dream.date).toLocaleDateString(language === 'en' ? 'en-US' : 'hi-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -451,15 +448,8 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen pb-16 md:pb-0 settings-page">
-      <FloatingStars count={40} />
+      <FloatingStars count={40} /> 
       <Meteors number={100} className="z-0" />
-      <div className="flex flex-col min-h-screen bg-gradient-to-b from-black via-indigo-950/20 to-black overflow-hidden relative">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 z-0 opacity-20">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] animate-pulse" style={{ animationDuration: '8s' }}></div>
-        <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-purple-500 rounded-full mix-blend-screen filter blur-[60px] animate-pulse" style={{ animationDuration: '10s' }}></div>
-        <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-screen filter blur-[70px] animate-pulse" style={{ animationDuration: '12s' }}></div>
-      </div>
       <header className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-zinc-800/50 px-4 py-3">
         <div className="flex items-center">
           <Link href="/home" className="p-2 hover:bg-zinc-800/50 rounded-lg transition-colors">
@@ -634,7 +624,7 @@ export default function SettingsPage() {
             
             <div className="space-y-4">
               <div>
-                <h3 className="font-medium">DreamAI - Unveiling the Depths of Your Imagination.</h3>
+                <h3 className="font-medium">Somniel - Dream Journal.</h3>
                 <p className="text-sm text-zinc-400">{translations[language].version} 1.0.0</p>
               </div>
               
@@ -671,7 +661,6 @@ export default function SettingsPage() {
       <div className="md:hidden">
         <BottomNav />
       </div>
-    </div>
     </div>
   )
 } 
