@@ -76,8 +76,11 @@ export function SidebarNav() {
             src="/newlogo.svg"       
             alt="Logo"
             draggable="false"
+            onClick={() => window.location.href = 'https://journal-ruchap24s-projects.vercel.app/'}
           />
+          <Link href="https://journal-ruchap24s-projects.vercel.app/">
           <span className="text-2xl font-semibold">Somniel</span>
+          </Link>
         </div>
         
         {/* Navigation Links */}
@@ -105,9 +108,7 @@ export function SidebarNav() {
             <PlusIcon className="h-5 w-5" />
             <span className="font-medium">{translations[language].capture}</span>
           </Link>
-          
-          
-          
+    
           <Link 
             href="/settings" 
             className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors ${
@@ -130,4 +131,4 @@ export function SidebarNav() {
       </div>
     </aside>
   )
-} 
+}
