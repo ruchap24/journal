@@ -1,14 +1,15 @@
 "use client"
 
-import { HomeIcon, PlusIcon, GlobeIcon } from "lucide-react"
+import { HomeIcon, PlusIcon, SettingsIcon } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import React from "react"
 import { useEffect, useState } from "react"
 
 export function BottomNav() {
   const pathname = usePathname()
   const [language, setLanguage] = useState<'en' | 'hi'>('en')
-  
+
   useEffect(() => {
     // Initial load
     const savedLanguage = localStorage.getItem('language') as 'en' | 'hi' | null
@@ -45,12 +46,12 @@ export function BottomNav() {
     en: {
       home: "Home",
       capture: "Capture",
-      explore: "Explore"
+      settings: "Settings"
     },
     hi: {
       home: "होम",
       capture: "कैप्चर",
-      explore: "एक्सप्लोर"
+      settings: "सेटिंग्स"
     }
   }
   
@@ -78,10 +79,10 @@ export function BottomNav() {
           </span>
         </Link>
 
-        <Link href="/explore" className="inline-flex flex-col items-center justify-center px-5">
-          <GlobeIcon className={`h-6 w-6 ${isActive("/explore") ? "text-white" : "text-zinc-400"}`} />
-          <span className={`text-xs mt-1 ${isActive("/explore") ? "text-white" : "text-zinc-400"}`}>
-            {translations[language].explore}
+        <Link href="/settings" className="inline-flex flex-col items-center justify-center px-5">
+          <SettingsIcon className={`h-6 w-6 ${isActive("/settings") ? "text-white" : "text-zinc-400"}`} />
+          <span className={`text-xs mt-1 ${isActive("/settings") ? "text-white" : "text-zinc-400"}`}>
+            {translations[language].settings}
           </span>
         </Link>
       </div>

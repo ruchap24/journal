@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { SettingsIcon } from "lucide-react"
 
-export function Header() {
+export function Header() {  
   return (
     <header className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-zinc-800 px-4 py-3">
       <div className="flex items-center justify-between">
@@ -15,7 +15,7 @@ export function Header() {
             src="/newlogo.svg"
             alt="Somniel Logo"
           />
-          <span className="text-xl font-semibold">Somniel</span>
+          <span className="text-xl font-semibold">DreamAI</span>
         </Link>
 
         <div className="flex items-center">
