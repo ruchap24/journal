@@ -55,9 +55,11 @@ export default function EditDream() {
       }
     }
 
+    // Add event listeners
     window.addEventListener('storage', handleStorageChange)
     window.addEventListener('storage-local', handleLanguageChange as any)
 
+    // Cleanup
     return () => {
       window.removeEventListener('storage', handleStorageChange)
       window.removeEventListener('storage-local', handleLanguageChange as any)
@@ -101,10 +103,9 @@ export default function EditDream() {
       </div>
     )
   }
+
   return (
     <div className="min-h-screen">
-      <FloatingStars count={40} />
-      <Meteors number={50} className="z-0" />
       <header className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-zinc-800 px-4 py-3">
         <div className="flex items-center max-w-6xl mx-auto">
           <Link href={`/dream/${id}`} className="p-2">
@@ -119,4 +120,4 @@ export default function EditDream() {
       </main>
     </div>
   )
-}
+} 
