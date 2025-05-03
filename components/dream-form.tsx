@@ -269,7 +269,6 @@ export function DreamForm({ initialData, isEditing = false }: DreamFormProps) {
         setLanguage(e.newValue as 'en' | 'hi')
       }
     }
-
     window.addEventListener('storage', handleStorageChange)
     window.addEventListener('storage-local', handleStorageChange as any)
 
