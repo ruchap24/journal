@@ -204,6 +204,7 @@ export default function LandingPage() {
   const translations = {
     en: {
       title: "Unlock the stories of slumber with ",
+      name: "Somniel",
       description:
         "An elegant and insightful dream journal designed to help you capture, explore, and decode your dreams effortlessly",
       startDreaming: "Enter the Dreamscape",
@@ -253,6 +254,7 @@ export default function LandingPage() {
     },
     hi: {
       title: "नींद की कहानियों को अनलॉक करें",
+      name: "सोमनियल के साथ",
       description:
         "एक सुरुचिपूर्ण और प्रज्ञापूर्ण सपनों की डायरी, जिसे आपको अपने सपनों को आसानी से पकड़ने, खोजने और समझने में मदद करने के लिए डिज़ाइन किया गया है।",
       startDreaming: "सपनों की दुनिया में प्रवेश करें",
@@ -305,7 +307,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen landing-page relative ">
       {/* Optimized Background Elements */}
-      <FloatingStars count={40} />
+      <FloatingStars count={100} />
       <Meteors number={100} className="z-0" />
       <ScrollToTop />
 
@@ -353,16 +355,21 @@ export default function LandingPage() {
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
               {" "}
               {translations[language].title}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-400">
-                Somniel
-              </span>
+              {/* <span 
+        className="bg-clip-text text-transparent transition-all duration-500 ease-in-out bg-gradient-to-r from-fuchsia-800 via-pink-600 to-purple-900"
+      > */}
+              {" "}
+              {translations[language].name}
+              {/* </span> */}
             </h1>
             <p className="text-lg md:text-xl text-zinc-400 mb-8">
               {translations[language].description}
             </p>
             <div className="flex justify-center">
               <Link href="/home" className="w-full sm:w-auto">
-                <GradientButton className="w-full px-8 py-3 text-lg flex items-center justify-center gap-2 group">
+                <GradientButton className="w-full px-8 py-3 text-lg flex items-center justify-center gap-2 group" style={{
+          background: 'linear-gradient(135deg, #210224, #510249, #780867, #510249, #210224)',
+             }}>
                   {translations[language].startDreaming}
                   <span className="inline-block transition-transform group-hover:translate-x-1">
                     ✧
@@ -540,7 +547,8 @@ export default function LandingPage() {
             {translations[language].exploreDescription}
           </p>
           <Link href="/signup">
-            <GradientButton className="px-8 py-3 text-lg">
+            <GradientButton className="px-8 py-3 text-lg" style={{
+          background: 'linear-gradient(135deg, #210224, #510249, #780867, #510249, #210224)' }}>
               {translations[language].joinNow}
             </GradientButton>
           </Link>

@@ -124,9 +124,9 @@ export function SidebarNav() {
         
         {/* Version info at bottom */}
         <div className="pt-4 mt-auto border-t border-zinc-800/50">
-          <p className="text-xs text-zinc-500 px-3"><a href="https://www.linkedin.com/in/ruchap18/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
-                    Rucha Patil
-                    </a></p>
+          <p className="text-xs text-zinc-500 px-3">
+                    Somniel v1.0.0
+                    </p>
         </div>
       </div>
     </aside>
