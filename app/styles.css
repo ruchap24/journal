@@ -59,6 +59,8 @@ html {
   -webkit-transition-timing-function: ease, ease;
   transition-timing-function: ease, ease;
   -webkit-transition-iteration-count: 1, 1;
+  background: #000000;
+  position: relative;
 }
 .fade-in-section {
   opacity: 0;
@@ -81,11 +83,6 @@ html {
   width: 100%;
 } 
 
-.landing-page {
-  background: linear-gradient(to bottom, #0f0f1e, #1a1a2e, #16213e);
-  position: relative;
-}
-
 .landing-page > section,
 .landing-page > header {
   background-color: transparent; /* Remove any section-specific backgrounds */
@@ -100,7 +97,7 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(138, 92, 245, 0.1), transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(38, 24, 69, 0.1), transparent 70%);
   pointer-events: none;
   z-index: 1;
 }

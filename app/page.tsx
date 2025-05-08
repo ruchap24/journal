@@ -253,7 +253,7 @@ export default function LandingPage() {
       },
     },
     hi: {
-      title: "नींद की कहानियों को अनलॉक करें",
+      title: "नींद की कहानियों को अनलॉक करें ",
       name: "सोमनियल के साथ",
       description:
         "एक सुरुचिपूर्ण और प्रज्ञापूर्ण सपनों की डायरी, जिसे आपको अपने सपनों को आसानी से पकड़ने, खोजने और समझने में मदद करने के लिए डिज़ाइन किया गया है।",
@@ -349,10 +349,10 @@ export default function LandingPage() {
       </div>
 
       {/* Hero Section */}
-      <header className="py-16 md:py-24 relative overflow-hidden z-10 bg-gray-900/80">
+      <header className="py-16 md:py-24 relative overflow-hidden z-10 bg-black">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r text-white">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-200 ">
               {" "}
               {translations[language].title}
               {/* <span 
