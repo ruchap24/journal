@@ -352,7 +352,7 @@ export default function LandingPage() {
       <header className="py-16 md:py-24 relative overflow-hidden z-10 bg-gray-900/80">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r text-white">
               {" "}
               {translations[language].title}
               {/* <span 
@@ -367,9 +367,8 @@ export default function LandingPage() {
             </p>
             <div className="flex justify-center">
               <Link href="/home" className="w-full sm:w-auto">
-                <GradientButton className="w-full px-8 py-3 text-lg flex items-center justify-center gap-2 group" style={{
-          background: 'linear-gradient(135deg, #210224, #510249, #780867, #510249, #210224)',
-             }}>
+                <GradientButton className="w-full px-8 py-3 text-lg flex items-center justify-center gap-2 group"
+             >
                   {translations[language].startDreaming}
                   <span className="inline-block transition-transform group-hover:translate-x-1">
                     ✧
@@ -482,6 +481,7 @@ export default function LandingPage() {
 
             {/* Level Cards */}
             <div className="grid gap-4">
+              
               {DREAM_LEVELS.map((level, index) => {
                 const [ref, isVisible] = useElementOnScreen({
                   threshold: 0.2,
@@ -499,8 +499,9 @@ export default function LandingPage() {
                     className={`bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 fade-in-section ${
                       isVisible ? "is-visible" : ""
                     }`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
+                    
                   >
+            
                     <div className="flex items-center gap-4">
                       <DreamSphere dreamCount={level.minEntries} size="md" />
                       <div>
@@ -526,9 +527,10 @@ export default function LandingPage() {
                             backgroundColor: getAuraColorValue(level),
                             transitionDelay: `${index * 100 + 300}ms`,
                           }}
-                        />
+                          />
                       </div>
                     </div>
+                
                   </div>
                 );
               })}
@@ -547,8 +549,7 @@ export default function LandingPage() {
             {translations[language].exploreDescription}
           </p>
           <Link href="/signup">
-            <GradientButton className="px-8 py-3 text-lg" style={{
-          background: 'linear-gradient(135deg, #210224, #510249, #780867, #510249, #210224)' }}>
+            <GradientButton className="px-8 py-3 text-lg">
               {translations[language].joinNow}
             </GradientButton>
           </Link>

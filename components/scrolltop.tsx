@@ -35,7 +35,7 @@ export const ScrollToTop: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-3 rounded-full bg-purple-600/80 text-white shadow-lg backdrop-blur-sm z-50 hover:bg-purple-700 transition-colors"
+          className="fixed bottom-8 right-8 p-3 rounded-full bg-purple-900/80 text-white shadow-lg backdrop-blur-sm z-50 hover:bg-purple-700 transition-colors"
         >
           <ArrowUp size={24} />
         </motion.button>

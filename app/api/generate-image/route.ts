@@ -156,3 +156,128 @@ export async function POST(request: Request) {
     )
   }
 } 
+
+
+
+//pollinations.ai api code 
+
+// import { NextResponse } from "next/server"
+// import axios from "axios"
+
+// export const config = {
+//   maxDuration: 300, // 5 minutes for Vercel
+// }
+
+// // Helper function to enhance the prompt with specific details
+// function enhancePrompt(prompt: string): string {
+//   // Extract potential subjects from the prompt
+//   const subjects = {
+//     girl: prompt.toLowerCase().includes('girl') || prompt.toLowerCase().includes('daughter'),
+//     boy: prompt.toLowerCase().includes('boy') || prompt.toLowerCase().includes('son'),
+//     mother: prompt.toLowerCase().includes('mother') || prompt.toLowerCase().includes('mom') || prompt.toLowerCase().includes('mummy'),
+//     father: prompt.toLowerCase().includes('father') || prompt.toLowerCase().includes('dad') || prompt.toLowerCase().includes('papa'),
+//   }
+
+//   // Build subject-specific modifiers
+//   let subjectModifiers = ""
+//   if (subjects.girl) subjectModifiers += "a young girl with gentle features, "
+//   if (subjects.boy) subjectModifiers += "a young boy with friendly features, "
+//   if (subjects.mother) subjectModifiers += "a caring mother figure with warm expression, "
+//   if (subjects.father) subjectModifiers += "a protective father figure with kind face, "
+
+//   // Base style modifiers for dream-like quality
+//   const styleModifiers = "dreamlike atmosphere, soft ethereal lighting, subtle colors, artistic composition, high quality, detailed, cinematic lighting"
+
+//   // Combine the original prompt with our enhancements
+//   const enhancedPrompt = `${subjectModifiers}${prompt}, ${styleModifiers}`
+
+//   // URL encode the prompt
+//   return encodeURIComponent(enhancedPrompt)
+// }
+
+// export async function POST(request: Request) {
+//   try {
+//     const { prompt } = await request.json()
+
+//     if (!prompt) {
+//       return NextResponse.json(
+//         { 
+//           error: "Missing required parameter",
+//           message: "Prompt is required" 
+//         },
+//         { status: 400 }
+//       )
+//     }
+
+//     // Enhance and encode the prompt
+//     const enhancedPrompt = enhancePrompt(prompt)
+//     console.log('Enhanced prompt:', decodeURIComponent(enhancedPrompt))
+
+//     // Generate image URL from Pollinations.ai
+//     const imageUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?nologo=true&width=512&height=512&seed=${Math.floor(Math.random() * 1000000)}`
+
+//     // Fetch the generated image
+//     const imageResponse = await axios.get(imageUrl, {
+//       responseType: 'arraybuffer'
+//     })
+
+//     // Convert the image data to base64
+//     const base64Image = Buffer.from(imageResponse.data).toString('base64')
+
+//     return NextResponse.json({
+//       image: `data:image/jpeg;base64,${base64Image}`,
+//       debug: {
+//         originalPrompt: prompt,
+//         enhancedPrompt: decodeURIComponent(enhancedPrompt),
+//         imageUrl: imageUrl,
+//         provider: "Pollinations.ai"
+//       }
+//     })
+
+//   } catch (error: any) {
+//     console.error("Error generating image:", error)
+    
+//     let errorMessage = "Failed to generate image"
+//     let statusCode = 500
+//     let debugInfo = {}
+//     if (error.response) {
+//       errorMessage = "Image generation service error"
+//       statusCode = error.response.status || 500
+//       let errorData = error.response.data
+//       if (error.response.data instanceof ArrayBuffer || Buffer.isBuffer(error.response.data)) {
+//         try {
+//           errorData = Buffer.from(error.response.data).toString()
+//           try {
+//             errorData = JSON.parse(errorData)
+//           } catch (e) {
+//             // Keep as string if not JSON
+//           }
+//         } catch (e) {
+//           errorData = "Could not parse error response"
+//         }
+//       }   
+//       debugInfo = {
+//         status: error.response.status,
+//         data: errorData
+//       }
+//     } else if (error.request) {
+//       errorMessage = "No response received from image generation service"
+//       debugInfo = {
+//         request: "Request was sent but no response was received"
+//       }
+//     } else {
+//       errorMessage = error.message || "Unknown error occurred"
+//       debugInfo = {
+//         message: error.message
+//       }
+//     }
+//     return NextResponse.json(
+//       { 
+//         error: true,
+//         message: errorMessage,
+//         debug: debugInfo
+//       },
+//       { status: statusCode }
+//     )
+//   }
+// }

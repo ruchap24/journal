@@ -8,6 +8,7 @@ import { FilterChips } from "@/components/filter-chips"
 import { SearchResults } from "@/components/search-results"
 import { PlusIcon } from "lucide-react"
 import Link from "next/link"
+import { SettingsIcon } from "lucide-react"
 import { GradientButton } from "@/components/ui/gradient-button"
 import { getDreams } from "@/utils/supabase/dreams"
 import type { Dream } from "@/utils/supabase/dreams"
@@ -195,17 +196,7 @@ export default function Home() {
 
               <Link href="/settings" className="block w-full mt-3">
                 <GradientButton className="w-full flex items-center justify-center gap-2 gradient-button-variant">
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M15 5v2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M9 5v2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M15 17v2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M9 17v2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M5 9h2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M17 9h2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M5 15h2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M17 15h2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                <SettingsIcon className="h-5 w-5 text-white transition-colors" />
                   Setting
                 </GradientButton>
               </Link>

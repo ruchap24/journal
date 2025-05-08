@@ -60,7 +60,7 @@ const translations = {
 };
 
 // Simple rate limiting constants
-const MAX_GENERATIONS_PER_DAY = 5
+const MAX_GENERATIONS_PER_DAY = 8
 const RATE_LIMIT_STORAGE_KEY = "image_generation_usage"
 
 // Helper function to check and update rate limits
@@ -224,6 +224,8 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
 
     // Check rate limit
     const { allowed, remaining } = await checkRateLimit()
+    console.log('Rate limit check:', { allowed, remaining })
+    
     if (!allowed) {
       const errorMessage = translations[language].limitReached.replace('{limit}', MAX_GENERATIONS_PER_DAY.toString())
       setError(errorMessage)
@@ -238,11 +240,14 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
     setDebugInfo(null)
 
     try {
+      console.log('Sending request to generate image with prompt:', summary)
       const response = await axios.post("/api/generate-image", {
         prompt: summary,
         width: imageWidth,
         height: imageHeight
       })
+
+      console.log('Received response:', response.data)
 
       if (response.data.image) {
         setGeneratedImage(response.data.image)
@@ -253,6 +258,9 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
         setRemainingGenerations(remaining - 1)
         
         toast.success(translations[language].dreamImageGenerated)
+      } else {
+        console.error('No image data in response:', response.data)
+        throw new Error('No image data received from the server')
       }
     } catch (error: any) {
       console.error("Error generating image:", error)
@@ -312,8 +320,8 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
   }
 
   // Default image size is 1024x1024
-  const imageWidth = 1024
-  const imageHeight = 1024
+  const imageWidth = 512
+  const imageHeight = 512
 
   const toggleDebugInfo = () => {
     setShowDebug(!showDebug)

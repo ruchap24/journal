@@ -121,6 +121,7 @@ export function DreamCard({ title, date, emotion, excerpt }: DreamCardProps) {
         <span>{emotionTranslations[language].tapToView}</span>
       </div>
     </div>
+ 
   )
 }
 
