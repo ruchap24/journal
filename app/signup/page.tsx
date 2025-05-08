@@ -277,7 +277,7 @@ export default function SignupPage() {
             <div className="space-y-6 text-center">
               <div className="flex justify-center">
                 <div className="w-16 h-16 bg-indigo-500/20 rounded-full flex items-center justify-center">
-                  <Mail className="w-8 h-8 text-indigo-400" />
+                  <Mail className="w-8 h-8 text-purple-400" />
                 </div>
               </div>
               

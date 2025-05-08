@@ -290,7 +290,7 @@ export default function LoginPage() {
                     setResetPasswordEmail(email)
                     setShowResetPasswordModal(true)
                   }}
-                  className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
+                  className="text-sm text-purple-500 hover:text-purple-300 transition-colors"
                 >
                   {translations[language].forgotPassword}
                 </button>
