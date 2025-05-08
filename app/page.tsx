@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, type RefObject } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Cover } from "@/components/Cover";
+import { Badge } from "@/components/ui/badgee";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -203,7 +204,8 @@ export default function LandingPage() {
   // Translations
   const translations = {
     en: {
-      title: "Unlock the stories of slumber with ",
+      t:"Unlock",
+      title: "the stories of slumber with ",
       name: "Somniel",
       description:
         "An elegant and insightful dream journal designed to help you capture, explore, and decode your dreams effortlessly",
@@ -253,7 +255,8 @@ export default function LandingPage() {
       },
     },
     hi: {
-      title: "नींद की कहानियों को अनलॉक करें ",
+      t:"नींद",
+      title: "की कहानियों को अनलॉक करें ",
       name: "सोमनियल के साथ",
       description:
         "एक सुरुचिपूर्ण और प्रज्ञापूर्ण सपनों की डायरी, जिसे आपको अपने सपनों को आसानी से पकड़ने, खोजने और समझने में मदद करने के लिए डिज़ाइन किया गया है।",
@@ -311,8 +314,13 @@ export default function LandingPage() {
       <Meteors number={100} className="z-0" />
       <ScrollToTop />
 
+      {/* Top background effect */}
+      <div className="absolute top-0 left-0 right-0 h-[50vh] z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#a21899]/20 via-[#990adb]/10 to-transparent"></div>
+      </div>
+
       {/* Header with Logo and Language Switcher */}
-      <div className="flex items-center justify-between p-6 border-b relative z-10">
+      <div className="flex items-center justify-between p-4 relative z-10">
         {/* Logo and Text */}
         <Link href="/" className="flex items-center gap-3">
           <div className="w-8 h-8 relative">
@@ -324,7 +332,10 @@ export default function LandingPage() {
               priority
             />
           </div>
-          <span className="text-white text-lg font-semibold">Somniel</span>
+          <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ce3ec4] via-[#a838dc] to-[#c314b7] relative group">
+            Somniel
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
+          </span>
         </Link>
 
         {/* Language Switcher */}
@@ -332,7 +343,7 @@ export default function LandingPage() {
           <span
             onClick={() => handleLanguageChange("en")}
             className={`mr-4 cursor-pointer ${
-              language === "en" ? "text-white font-bold" : "text-gray-400"
+              language === "en" ? "text-[#ad24a4] font-bold" : "text-[#6e1668]"
             }`}
           >
             EN
@@ -340,7 +351,7 @@ export default function LandingPage() {
           <span
             onClick={() => handleLanguageChange("hi")}
             className={`cursor-pointer ${
-              language === "hi" ? "text-white font-bold" : "text-gray-400"
+              language === "hi" ? "text-[#ad24a4] font-bold" : "text-[#6e1668]"
             }`}
           >
             Hindi
@@ -348,17 +359,34 @@ export default function LandingPage() {
         </div>
       </div>
 
+     
+
       {/* Hero Section */}
       <header className="min-h-screen py-18 md:py-24 relative overflow-hidden z-10 bg-black flex flex-col justify-center">
-        <div className="container mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="container mx-auto px-4 py-16 md:py-14 relative">
+          <div className="max-w-4xl mx-auto text-center relative pt-10">
+            <div className="absolute left-1/2 -top-[4px] transform -translate-x-1/2 z-10">
+              <Badge
+                variant="outline"
+                className="px-8 py-3 border border-purple-300/20 bg-background/80 backdrop-blur-sm"
+              >
+                <span className="text-[#ad24a4] font-semibold mr-1">Welcome to Somniel</span>
+                <span className="h-2 w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
+              </Badge>
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-200 ">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899]">
+              {translations[language].t}
+              </span>
               {" "}
               {translations[language].title}
               {" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] relative group">
               {translations[language].name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </h1>
-            <p className="text-lg md:text-xl text-zinc-400 mb-8">
+            <p className="text-zinc-400 mb-8  max-w-xl mx-auto text-base sm:text-lg md:text-xl text-muted-foreground">
               {translations[language].description}
             </p>
             <div className="flex justify-center">
@@ -538,7 +566,7 @@ export default function LandingPage() {
       {/* CTA Section */}
       <div className="py-8 md:py-16 relative z-10">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl mb-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ce3ec4] via-[#a838dc] to-[#c314b7] ">
             {translations[language].readyToStart}
           </h2>
           <p className="text-lg text-zinc-400 mb-6 max-w-2xl mx-auto">
@@ -550,6 +578,17 @@ export default function LandingPage() {
             </GradientButton>
           </Link>
         </div>
+      </div>
+
+      {/* Gradient Footer Section */}
+      <div className="relative h-24 md:h-32 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-gradient-to-t from-[#ce3ec4]/30 via-[#a838dc]/20 to-transparent" 
+          style={{ 
+            backgroundSize: "200% 200%",
+            animation: "pulse 5s ease-in-out infinite" 
+          }}
+        ></div>
       </div>
     </div>
   );
