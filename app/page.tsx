@@ -305,14 +305,14 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen landing-page relative ">
+    <div className="landing-page relative">
       {/* Optimized Background Elements */}
       <FloatingStars count={100} />
       <Meteors number={100} className="z-0" />
       <ScrollToTop />
 
       {/* Header with Logo and Language Switcher */}
-      <div className="flex items-center justify-between p-4 border-b relative z-10">
+      <div className="flex items-center justify-between p-6 border-b relative z-10">
         {/* Logo and Text */}
         <Link href="/" className="flex items-center gap-3">
           <div className="w-8 h-8 relative">
@@ -349,18 +349,14 @@ export default function LandingPage() {
       </div>
 
       {/* Hero Section */}
-      <header className="py-16 md:py-24 relative overflow-hidden z-10 bg-black">
+      <header className="min-h-screen py-18 md:py-24 relative overflow-hidden z-10 bg-black flex flex-col justify-center">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-200 ">
               {" "}
               {translations[language].title}
-              {/* <span 
-        className="bg-clip-text text-transparent transition-all duration-500 ease-in-out bg-gradient-to-r from-fuchsia-800 via-pink-600 to-purple-900"
-      > */}
               {" "}
               {translations[language].name}
-              {/* </span> */}
             </h1>
             <p className="text-lg md:text-xl text-zinc-400 mb-8">
               {translations[language].description}
