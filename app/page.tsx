@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Cover } from "@/components/Cover";
 import { Badge } from "@/components/ui/badgee";
 import Image from "next/image";
+import { Logo } from "./components/logo";
 import {
   ArrowRight,
   Moon,
@@ -323,14 +324,8 @@ export default function LandingPage() {
       <div className="flex items-center justify-between p-4 relative z-10">
         {/* Logo and Text */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-8 h-8 relative">
-            <Image
-              src="/newlogo.svg"
-              alt="Somniel Logo"
-              fill
-              className="object-contain"
-              priority
-            />
+          <div className="relative" style={{ height: '1.875rem', width: '1.875rem' }}>
+            <Logo />
           </div>
           <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ce3ec4] via-[#a838dc] to-[#c314b7] relative group">
             Somniel
