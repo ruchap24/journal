@@ -12,7 +12,7 @@ import { LayoutWithConditionalSidebar } from '@/components/layout-with-condition
 const inter = Inter({ subsets: ["latin"] })
 
 export const viewport: Viewport = {
-  themeColor: '#000000',
+  themeColor: '#a838dc',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -29,6 +29,7 @@ export const metadata: Metadata = {
       { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
       { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' }
     ],
+    shortcut: ['/newlogo.svg'],
     apple: [
       { url: '/apple-icon-180x180.png', sizes: '180x180', type: 'image/png' }
     ]
@@ -65,6 +66,8 @@ export default function RootLayout({
         {/* Preload the explore page to ensure loading screen appears instantly */}
         <link rel="preload" href="/explore" as="document" />
         <link rel="icon" href="/newlogo.svg" type="image/svg+xml" />
+        <link rel="mask-icon" href="/newlogo.svg" color="#a838dc" />
+        <meta name="theme-color" content="#a838dc" />
         
         {/* Preload THREE.js */}
         <link rel="preload" href="https://unpkg.com/three@0.174.0/build/three.module.js" as="script" />

@@ -359,14 +359,14 @@ export default function LandingPage() {
       {/* Hero Section */}
       <header className="min-h-screen py-18 md:py-24 relative overflow-hidden z-10 bg-black flex flex-col justify-center">
         <div className="container mx-auto px-4 py-16 md:py-14 relative">
-          <div className="max-w-4xl mx-auto text-center relative pt-10">
-            <div className="absolute left-1/2 -top-[4px] transform -translate-x-1/2 z-10">
+          <div className="max-w-4xl mx-auto text-center relative pt-14">
+            <div className="absolute left-1/2 -top-10 transform -translate-x-1/2 z-10 w-full sm:w-auto">
               <Badge
                 variant="outline"
-                className="px-8 py-3 border border-purple-300/20 bg-background/80 backdrop-blur-sm"
+                className="px-3 py-2 sm:px-8 sm:py-3 border border-purple-300/20 bg-background/80 backdrop-blur-sm text-sm sm:text-base inline-block"
               >
-                <span className="text-[#ad24a4] font-semibold mr-1">Welcome to Somniel</span>
-                <span className="h-2 w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
+                <span className="text-[#ad24a4] font-semibold mr-1 text-xs sm:text-base">Welcome to Somniel</span>
+                <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
               </Badge>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-200 ">
