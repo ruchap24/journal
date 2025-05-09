@@ -333,7 +333,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page relative">
-      <DarkUniverseBackground />
+      {/* <DarkUniverseBackground /> */}
       {/* Optimized Background Elements */}
       <FloatingStars count={100} />
       <Meteors number={100} className="z-0" />
