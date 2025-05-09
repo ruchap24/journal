@@ -121,6 +121,29 @@ function useElementOnScreen(
   return [containerRef, isVisible];
 }
 
+function DarkUniverseBackground() {
+  return (
+    <>
+      <div className="dark-universe-bg" />
+      <div className="nebula" style={{ '--x': '30%', '--y': '20%' } as React.CSSProperties} />
+      <div className="nebula" style={{ '--x': '70%', '--y': '80%' } as React.CSSProperties} />
+      {Array.from({ length: 50 }).map((_, i) => (
+        <div
+          key={i}
+          className="star"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: `${Math.random() * 2 + 1}px`,
+            height: `${Math.random() * 2 + 1}px`,
+            '--twinkle-duration': `${Math.random() * 3 + 2}s`
+          } as React.CSSProperties}
+        />
+      ))}
+    </>
+  );
+}
+
 export default function LandingPage() {
   const [language, setLanguage] = useState<"en" | "hi">("en");
   const [loadFeatures, setLoadFeatures] = useState(false);
@@ -310,6 +333,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page relative">
+      <DarkUniverseBackground />
       {/* Optimized Background Elements */}
       <FloatingStars count={100} />
       <Meteors number={100} className="z-0" />
@@ -327,7 +351,7 @@ export default function LandingPage() {
           <div className="relative" style={{ height: '1.875rem', width: '1.875rem' }}>
             <Logo />
           </div>
-          <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ce3ec4] via-[#a838dc] to-[#c314b7] relative group">
+          <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ce3ec4] via-[#a838dc] to-[#c314b7] relative group glow-text">
             Somniel
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
           </span>
@@ -338,7 +362,7 @@ export default function LandingPage() {
           <span
             onClick={() => handleLanguageChange("en")}
             className={`mr-4 cursor-pointer ${
-              language === "en" ? "text-[#ad24a4] font-bold" : "text-[#6e1668]"
+              language === "en" ? "text-[#b72aad] font-bold" : "text-[#6e1668]"
             }`}
           >
             EN
@@ -354,31 +378,27 @@ export default function LandingPage() {
         </div>
       </div>
 
-     
-
       {/* Hero Section */}
-      <header className="min-h-screen py-18 md:py-24 relative overflow-hidden z-10 bg-black flex flex-col justify-center">
+      <header className="min-h-screen py-18 md:py-24 relative overflow-hidden z-10 flex flex-col justify-center">
         <div className="container mx-auto px-4 py-16 md:py-14 relative">
-          <div className="max-w-4xl mx-auto text-center relative pt-14">
-            <div className="absolute left-1/2 -top-10 transform -translate-x-1/2 z-10 w-full sm:w-auto">
+          <div className="max-w-4xl mx-auto text-center relative">
+            <div className="flex justify-center mb-8">
               <Badge
                 variant="outline"
-                className="px-3 py-2 sm:px-8 sm:py-3 border border-purple-300/20 bg-background/80 backdrop-blur-sm text-sm sm:text-base inline-block"
+                className="px-4 py-2 sm:px-8 sm:py-3 border-2 border-purple-300/20 bg-background/80 backdrop-blur-sm text-sm sm:text-base inline-block float-element"
               >
-                <span className="text-[#ad24a4] font-semibold mr-1 text-xs sm:text-base">Welcome to Somniel</span>
+                <span className="text-[#ad24a4] font-semibold mr-1 text-xs sm:text-base glow-text">Welcome to Somniel</span>
                 <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
               </Badge>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-200 ">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899]">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 glow-text">
               {translations[language].t}
-              </span>
               {" "}
               {translations[language].title}
               {" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] relative group">
-              {translations[language].name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#c93cc0] via-[#df24c3] to-[#cb1abf] relative group">
+                {translations[language].name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
               </span>
             </h1>
             <p className="text-zinc-400 mb-8  max-w-xl mx-auto text-base sm:text-lg md:text-xl text-muted-foreground">
@@ -400,86 +420,78 @@ export default function LandingPage() {
       </header>
 
       {/* Features Section */}
-      <section className="py-16 md:py-24 relative overflow-hidden z-10 ">
+      <section className="py-16 md:py-24 relative overflow-hidden z-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 glow-text">
             {translations[language].features}
           </h2>
 
-          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto ">
-          
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md shadow-purple-500/30 hover:scale-110 transition: transform 0.3s ease"
-              >
-                <div className="mb-4 text-blue-400">
-                  <Moon className="h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {translations[language].dreamJournal}
-                </h3>
-                <p className="text-zinc-300">
-                  {translations[language].dreamJournalDesc}
-                </p>
-              </motion.div>
-           
-           
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md shadow-purple-500/30 duration:200 hover:scale-110 transition-all"
-              >
-                <div className="mb-4 text-red-800">
-                  <Brain className="h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {translations[language].patternRecognition}
-                </h3>
-                <p className="text-zinc-300">
-                  {translations[language].patternRecognitionDesc}
-                </p>
-              </motion.div>
-           
-          
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md shadow-purple-500/30 duration:200 hover:scale-110 transition-all"
-              >
-                <div className="mb-4 text-amber-400">
-                  <CloudLightning className="h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {translations[language].dreamVisualization}
-                </h3>
-                <p className="text-zinc-300">
-                  {translations[language].dreamVisualizationDesc}
-                </p>
-              </motion.div>
-         
-
-            {/* <div className="hover:scale-110 transition-all"> */}
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="bg-gray-900/80 rounded-3xl shadow-2xl p-6 w-full border border-gray-800 backdrop-blur-md shadow-purple-500/30 duration:200 "
-              >
-                <div className="mb-4 text-green-400">
-                  <Sparkles className="h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {translations[language].dreamLeveling}
-                </h3>
-                <p className="text-zinc-300">
-                  {translations[language].dreamLevelingDesc}
-                </p>
-              </motion.div>
-            {/* </div> */}
+          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {/* Update each feature card with the new feature-card class */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
+            >
+              <div className="mb-4 text-blue-400">
+                <Moon className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">
+                {translations[language].dreamJournal}
+              </h3>
+              <p className="text-zinc-300">
+                {translations[language].dreamJournalDesc}
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
+            >
+              <div className="mb-4 text-red-800">
+                <Brain className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">
+                {translations[language].patternRecognition}
+              </h3>
+              <p className="text-zinc-300">
+                {translations[language].patternRecognitionDesc}
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
+            >
+              <div className="mb-4 text-amber-400">
+                <CloudLightning className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">
+                {translations[language].dreamVisualization}
+              </h3>
+              <p className="text-zinc-300">
+                {translations[language].dreamVisualizationDesc}
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
+            >
+              <div className="mb-4 text-green-400">
+                <Sparkles className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">
+                {translations[language].dreamLeveling}
+              </h3>
+              <p className="text-zinc-300">
+                {translations[language].dreamLevelingDesc}
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
