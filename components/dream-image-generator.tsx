@@ -60,7 +60,7 @@ const translations = {
 };
 
 // Simple rate limiting constants
-const MAX_GENERATIONS_PER_DAY = 8
+const MAX_GENERATIONS_PER_DAY = 2
 const RATE_LIMIT_STORAGE_KEY = "image_generation_usage"
 
 // Helper function to check and update rate limits
