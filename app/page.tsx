@@ -351,7 +351,7 @@ export default function LandingPage() {
           <div className="relative" style={{ height: '1.875rem', width: '1.875rem' }}>
             <Logo />
           </div>
-          <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ce3ec4] via-[#a838dc] to-[#c314b7] relative group glow-text">
+          <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#e50e8c] via-[#e50e8c] to-[#c314b7] relative group glow-text">
             Somniel
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
           </span>
@@ -362,7 +362,7 @@ export default function LandingPage() {
           <span
             onClick={() => handleLanguageChange("en")}
             className={`mr-4 cursor-pointer ${
-              language === "en" ? "text-[#b72aad] font-bold" : "text-[#6e1668]"
+              language === "en" ? "text-[#e50e8c] font-bold" : "text-[#b72aad]"
             }`}
           >
             EN
@@ -370,7 +370,7 @@ export default function LandingPage() {
           <span
             onClick={() => handleLanguageChange("hi")}
             className={`cursor-pointer ${
-              language === "hi" ? "text-[#ad24a4] font-bold" : "text-[#6e1668]"
+              language === "hi" ? "text-[#e50e8c] font-bold" : "text-[#b72aad]"
             }`}
           >
             Hindi
@@ -387,7 +387,7 @@ export default function LandingPage() {
                 variant="outline"
                 className="px-4 py-2 sm:px-8 sm:py-3 border-2 border-purple-300/20 bg-background/80 backdrop-blur-sm text-sm sm:text-base inline-block float-element"
               >
-                <span className="text-[#a21899] font-semibold mr-1 text-xs sm:text-base glow-text">Welcome to Somniel</span>
+                <span className="text-[#e50e8c] font-semibold mr-1 text-xs sm:text-base glow-text">Welcome to Somniel</span>
                 <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
               </Badge>
             </div>
