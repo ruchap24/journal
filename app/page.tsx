@@ -396,7 +396,7 @@ export default function LandingPage() {
               {" "}
               {translations[language].title}
               {" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#c93cc0] via-[#df24c3] to-[#cb1abf] relative group">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e50e8c] via-[#aa126e] to-[#cb1abf] relative group">
                 {translations[language].name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
               </span>
