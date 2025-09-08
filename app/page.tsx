@@ -391,12 +391,12 @@ export default function LandingPage() {
                 <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
               </Badge>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 glow-text">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 ">
               {translations[language].t}
               {" "}
               {translations[language].title}
               {" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e50e8c] via-[#aa126e] to-[#cb1abf] relative group">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e50e8c] via-[#d21483] to-[#cb1abf] relative group">
                 {translations[language].name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
               </span>
