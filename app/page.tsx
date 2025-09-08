@@ -392,10 +392,13 @@ export default function LandingPage() {
               </Badge>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 ">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e0e0dd] via-[#d3d3ce] to-[#d3d3ce] relative group">
+               
               {translations[language].t}
               {" "}
               {translations[language].title}
               {" "}
+                </span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e50e8c] via-[#d21483] to-[#cb1abf] relative group">
                 {translations[language].name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
