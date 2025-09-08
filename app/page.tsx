@@ -362,7 +362,7 @@ export default function LandingPage() {
           <span
             onClick={() => handleLanguageChange("en")}
             className={`mr-4 cursor-pointer ${
-              language === "en" ? "text-[#e50e8c] font-bold" : "text-[#b72aad]"
+              language === "en" ? "text-[#e50e8c] font-bold" : "text-[#cb0278]"
             }`}
           >
             EN
@@ -370,7 +370,7 @@ export default function LandingPage() {
           <span
             onClick={() => handleLanguageChange("hi")}
             className={`cursor-pointer ${
-              language === "hi" ? "text-[#e50e8c] font-bold" : "text-[#b72aad]"
+              language === "hi" ? "text-[#e50e8c] font-bold" : "text-[#cb0278]"
             }`}
           >
             Hindi
