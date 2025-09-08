@@ -387,7 +387,7 @@ export default function LandingPage() {
                 variant="outline"
                 className="px-4 py-2 sm:px-8 sm:py-3 border-2 border-purple-300/20 bg-background/80 backdrop-blur-sm text-sm sm:text-base inline-block float-element"
               >
-                <span className="text-[#ad24a4] font-semibold mr-1 text-xs sm:text-base glow-text">Welcome to Somniel</span>
+                <span className="text-[#a21899] font-semibold mr-1 text-xs sm:text-base glow-text">Welcome to Somniel</span>
                 <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
               </Badge>
             </div>
