@@ -9,6 +9,15 @@ html {
   }
 }
 
+/* Prevent scroll on desktop/laptop */
+@media (min-width: 1024px) {
+  html.landing-page,
+  body.landing-page {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
 /* Optimize rendering performance */
 .landing-page * {
   backface-visibility: hidden;

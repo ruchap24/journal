@@ -22,6 +22,7 @@ import { FloatingStars } from "@/components/floatingstars";
 import { ScrollToTop } from "@/components/scrolltop";
 import { debounce } from "lodash";
 import "./styles.css";
+import AuraBg from "@/components/ui/aurabg";
 
 // Define types for level titles to ensure type safety
 type DreamLevel =
@@ -98,7 +99,6 @@ const getAuraColorValue = (level: LevelInfo) => {
   }
 };
 
-// Custom hook for intersection observer with improved performance
 function useElementOnScreen(
   options = { rootMargin: "100px", threshold: 0.2 }
 ): [RefObject<HTMLDivElement | null>, boolean] {
@@ -151,7 +151,6 @@ export default function LandingPage() {
   const featuresRef = useRef<HTMLDivElement>(null);
   const levelsRef = useRef<HTMLDivElement>(null);
 
-  // Load language from local storage on component mount
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language") as
       | "en"
@@ -162,7 +161,6 @@ export default function LandingPage() {
     }
   }, [language]);
 
-  // Progressive loading for better performance
   useEffect(() => {
     const featuresObserver = new IntersectionObserver(
       ([entry]) => {
@@ -193,18 +191,15 @@ export default function LandingPage() {
     };
   }, []);
 
-  // Save language to local storage when it changes
   const handleLanguageChange = (lang: "en" | "hi") => {
-    if (lang === language) return; // Prevent unnecessary updates
+    if (lang === language) return;
     setLanguage(lang);
     localStorage.setItem("language", lang);
-    // Dispatch custom event for other components
     window.dispatchEvent(
       new StorageEvent("storage-local", { key: "language", newValue: lang })
     );
   };
 
-  // Apply landing-page class to document body and html
   useEffect(() => {
     document.body.classList.add("landing-page");
     document.documentElement.classList.add("landing-page");
@@ -215,20 +210,17 @@ export default function LandingPage() {
     };
   }, []);
 
-  // Debounced scroll handler for performance
   useEffect(() => {
     const handleScroll = debounce(() => {
-      // Any scroll-based animations or effects can go here
-    }, 16); // ~60fps
+    }, 16);
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Translations
   const translations = {
     en: {
-      t:"Unlock",
+      t: "Unlock",
       title: "the stories of slumber with ",
       name: "Somniel",
       description:
@@ -279,7 +271,7 @@ export default function LandingPage() {
       },
     },
     hi: {
-      t:"नींद",
+      t: "नींद",
       title: "की कहानियों को अनलॉक करें ",
       name: "सोमनियल के साथ",
       description:
@@ -333,20 +325,12 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page relative">
-      {/* <DarkUniverseBackground /> */}
-      {/* Optimized Background Elements */}
+      <AuraBg />
       <FloatingStars count={100} />
       <Meteors number={100} className="z-0" />
       <ScrollToTop />
 
-      {/* Top background effect */}
-      <div className="absolute top-0 left-0 right-0 h-[50vh] z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#a21899]/20 via-[#990adb]/10 to-transparent"></div>
-      </div>
-
-      {/* Header with Logo and Language Switcher */}
-      <div className="flex items-center justify-between p-4 relative z-10">
-        {/* Logo and Text */}
+      <nav className="flex items-center justify-between p-4 relative z-10">
         <Link href="/" className="flex items-center gap-3">
           <div className="relative" style={{ height: '1.875rem', width: '1.875rem' }}>
             <Logo />
@@ -357,49 +341,54 @@ export default function LandingPage() {
           </span>
         </Link>
 
-        {/* Language Switcher */}
         <div className="flex items-center">
           <span
             onClick={() => handleLanguageChange("en")}
-            className={`mr-4 cursor-pointer ${
-              language === "en" ? "text-[#e50e8c] font-bold" : "text-[#cb0278]"
-            }`}
+            className={`mr-4 cursor-pointer ${language === "en" ? "text-[#f567b5] font-bold" : "text-[#f567b5]"
+              }`}
           >
             EN
           </span>
           <span
             onClick={() => handleLanguageChange("hi")}
-            className={`cursor-pointer ${
-              language === "hi" ? "text-[#e50e8c] font-bold" : "text-[#cb0278]"
-            }`}
+            className={`cursor-pointer ${language === "hi" ? "text-[#e63e7b] font-bold" : "text-[#e63e7b]"
+              }`}
           >
             Hindi
           </span>
         </div>
-      </div>
+      </nav>
 
-      {/* Hero Section */}
-      <header className="min-h-screen py-18 md:py-24 relative overflow-hidden z-10 flex flex-col justify-center">
-        <div className="container mx-auto px-4 py-16 md:py-14 relative">
+      <div className="h-screen relative overflow-hidden z-10 flex items-center justify-center container-block">
+        <div className="container mx-auto px-4 py-6 md:py-4 relative">
           <div className="max-w-4xl mx-auto text-center relative">
-            <div className="flex justify-center mb-8">
-              <Badge
-                variant="outline"
-                className="px-4 py-2 sm:px-8 sm:py-3 border-2 border-purple-300/20 bg-background/80 backdrop-blur-sm text-sm sm:text-base inline-block float-element"
+            <div className="flex justify-center mb-4 -mt-44">
+              <div
+                className="inline-flex items-center justify-center px-3 py-1.5 sm:px-2 sm:py-2 border-2 border-purple-300/20 bg-background/80 backdrop-blur-sm text-xs sm:text-base rounded-full cursor-pointer"
               >
-                <span className="text-[#e50e8c] font-semibold mr-1 text-xs sm:text-base glow-text">Welcome to Somniel</span>
-                <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#b522ab] inline-block animate-pulse" />
-              </Badge>
+                {/* <span className="text-xs text-gray-300 font-medium group-hover:text-white transition-colors pr-1 font-sans">
+                Welcome to Somniel
+              </span> */}
+               <span className="text-xs text-gray-300 font-medium group-hover:text-white transition-colors pr-1 font-sans">
+                Welcome to Somniel
+              </span>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 ">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e0e0dd] via-[#d3d3ce] to-[#d3d3ce] relative group">
-               
-              {translations[language].t}
-              {" "}
-              {translations[language].title}
-              {" "}
-                </span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e50e8c] via-[#d21483] to-[#cb1abf] relative group">
+
+{/* <div className="inline-flex -mt-4 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors cursor-pointer">
+              <span className="text-xs text-gray-300 font-medium group-hover:text-white transition-colors pr-1 font-sans">
+                Welcome to Somniel
+              </span>
+            </div> */}
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 -mt-2 font-instrumental">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#dae0e8] via-[#f7f9fa] to-[#d3d3ce] relative group">
+
+                {translations[language].t}
+                {" "}
+                {translations[language].title}
+                {" "}
+              </span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#f01d6a] via-[#f72389] to-[#cb1abf] relative group">
                 {translations[language].name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a21899] via-[#990adb] to-[#a21899] transition-all duration-300 group-hover:w-full"></span>
               </span>
@@ -408,197 +397,25 @@ export default function LandingPage() {
               {translations[language].description}
             </p>
             <div className="flex justify-center">
-              <Link href="/home" className="w-full sm:w-auto">
-                <GradientButton className="w-full px-8 py-3 text-lg flex items-center justify-center gap-2 group"
-             >
-                  {translations[language].startDreaming}
-                  <span className="inline-block transition-transform group-hover:translate-x-1">
-                    ✧
-                  </span>
-                </GradientButton>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Features Section */}
-      <section className="py-16 md:py-24 relative overflow-hidden z-10">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 glow-text">
-            {translations[language].features}
-          </h2>
-
-          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {/* Update each feature card with the new feature-card class */}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
-            >
-              <div className="mb-4 text-blue-400">
-                <Moon className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                {translations[language].dreamJournal}
-              </h3>
-              <p className="text-zinc-300">
-                {translations[language].dreamJournalDesc}
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
-            >
-              <div className="mb-4 text-red-800">
-                <Brain className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                {translations[language].patternRecognition}
-              </h3>
-              <p className="text-zinc-300">
-                {translations[language].patternRecognitionDesc}
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
-            >
-              <div className="mb-4 text-amber-400">
-                <CloudLightning className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                {translations[language].dreamVisualization}
-              </h3>
-              <p className="text-zinc-300">
-                {translations[language].dreamVisualizationDesc}
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="feature-card rounded-3xl shadow-2xl p-6 w-full"
-            >
-              <div className="mb-4 text-green-400">
-                <Sparkles className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                {translations[language].dreamLeveling}
-              </h3>
-              <p className="text-zinc-300">
-                {translations[language].dreamLevelingDesc}
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Progress System Section */}
-      <section className="py-8 md:py-16 relative z-10">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Introduction Section */}
-            <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
-                {translations[language].dreamLevelProgression}
-              </h2>
-              <p className="text-lg text-zinc-400">
-                {translations[language].dreamLevelDesc}
-              </p>
-            </div>
-
-            {/* Level Cards */}
-            <div className="grid gap-4">
               
-              {DREAM_LEVELS.map((level, index) => {
-                const [ref, isVisible] = useElementOnScreen({
-                  threshold: 0.2,
-                  rootMargin: "100px",
-                });
-
-                const levelKey = level.title
-                  .toLowerCase()
-                  .replace(/\s+/g, "") as DreamLevel;
-
-                return (
-                  <div
-                    key={level.title}
-                    ref={ref}
-                    className={`bg-zinc-900/50 p-6 rounded-lg border border-zinc-800/50 fade-in-section ${
-                      isVisible ? "is-visible" : ""
-                    }`}
-                    
-                  >
+               <Link href="/home" className="w-full sm:w-auto">
+                {/* <GradientButton className="w-full flex items-center justify-center gap-2">
+                {translations[language].startDreaming}
+                <span className="inline-block transition-transform group-hover:translate-x-1">
+                    ✧
+                  </span>   
+                </GradientButton> */}
+                <button className="sm:w-auto bg-white-500/10 hover:bg-blue-800/10 hover:border-purple-400 hover:border-purple-400 hover:shadow-[0_0_35px_rgba(59,130,246,0.6),inset_0_0_20px_rgba(59,130,246,0.4)] hover:scale-[1.02] transition-all duration-300 flex group text-base font-medium text-white w-full border-purple-500 border rounded-full pt-3.5 pr-8 pb-3.5 pl-8 shadow-[0_0_20px_rgba(59,130,246,0.5),inset_0_0_10px_rgba(59,130,246,0.2)] gap-x-2 gap-y-2 items-center justify-center">
+                {translations[language].startDreaming}
+                <span className="inline-block transition-transform group-hover:translate-x-1">
+                    ✧
+                  </span>   
+        </button>
+              </Link> 
             
-                    <div className="flex items-center gap-4">
-                      <DreamSphere dreamCount={level.minEntries} size="md" />
-                      <div>
-                        <h3
-                          className="text-lg font-semibold"
-                          style={{ color: getAuraColorValue(level) }}
-                        >
-                          {translations[language].levelTitles[levelKey]}
-                        </h3>
-                        <p className="text-sm text-zinc-400">
-                          {level.minEntries}+{" "}
-                          {translations[language].entriesRequired}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-4">
-                      <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full progress-bar ${
-                            isVisible ? "is-visible" : ""
-                          }`}
-                          style={{
-                            backgroundColor: getAuraColorValue(level),
-                            transitionDelay: `${index * 100 + 300}ms`,
-                          }}
-                          />
-                      </div>
-                    </div>
-                
-                  </div>
-                );
-              })}
             </div>
           </div>
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <div className="py-8 md:py-16 relative z-10">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl mb-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ce3ec4] via-[#a838dc] to-[#c314b7] ">
-            {translations[language].readyToStart}
-          </h2>
-          <p className="text-lg text-zinc-400 mb-6 max-w-2xl mx-auto">
-            {translations[language].exploreDescription}
-          </p>
-          <Link href="/signup">
-            <GradientButton className="px-8 py-3 text-lg">
-              {translations[language].joinNow}
-            </GradientButton>
-          </Link>
-        </div>
-      </div>
-
-      {/* Gradient Footer Section */}
-      <div className="relative h-24 md:h-32 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-gradient-to-t from-[#ce3ec4]/30 via-[#a838dc]/20 to-transparent" 
-          style={{ 
-            backgroundSize: "200% 200%",
-            animation: "pulse 5s ease-in-out infinite" 
-          }}
-        ></div>
       </div>
     </div>
   );

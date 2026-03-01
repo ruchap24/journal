@@ -1,8 +1,8 @@
-import { createClient } from '@/utils/supabase/client'
+// LocalStorage-based dream storage (no authentication required)
 
 export interface Dream {
   id: string
-  user_id: string
+  user_id?: string // Optional, kept for compatibility but not used
   title: string
   date: string
   location: string
@@ -25,24 +25,37 @@ export interface Dream {
   updated_at: string
 }
 
-export async function createDream(dream: Omit<Dream, 'id' | 'user_id' | 'created_at' | 'updated_at'>): Promise<Dream> {
-  const supabase = createClient()
+// Helper function to get dreams from localStorage
+function getDreamsFromStorage(): Dream[] {
+  if (typeof window === 'undefined') return []
+  const dreamsJson = localStorage.getItem('dreams')
+  if (!dreamsJson) return []
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    return JSON.parse(dreamsJson)
+  } catch {
+    return []
+  }
+}
 
-  if (!user) throw new Error('User not authenticated')
+// Helper function to save dreams to localStorage
+function saveDreamsToStorage(dreams: Dream[]): void {
+  if (typeof window === 'undefined') return
+  localStorage.setItem('dreams', JSON.stringify(dreams))
+}
 
-  // Format the date properly
-  const formattedDream = {
+export async function createDream(dream: Omit<Dream, 'id' | 'user_id' | 'created_at' | 'updated_at'>): Promise<Dream> {
+  const now = new Date().toISOString()
+  const newDream: Dream = {
     ...dream,
+    id: crypto.randomUUID(),
     date: new Date(dream.date).toISOString(),
-    // Ensure unusual_events is properly formatted as JSONB
-    unusual_events: JSON.stringify({
-      occurred: dream.unusual_events.occurred || false,
-      description: dream.unusual_events.description || ''
-    }),
+    created_at: now,
+    updated_at: now,
+    // Ensure unusual_events is properly formatted
+    unusual_events: {
+      occurred: dream.unusual_events?.occurred || false,
+      description: dream.unusual_events?.description || ''
+    },
     // Ensure optional fields have default values
     symbols: dream.symbols || '',
     people: dream.people || '',
@@ -50,143 +63,64 @@ export async function createDream(dream: Omit<Dream, 'id' | 'user_id' | 'created
     ending: dream.ending || null
   }
 
-  console.log('Formatted dream data:', formattedDream)
+  const dreams = getDreamsFromStorage()
+  dreams.push(newDream)
+  saveDreamsToStorage(dreams)
+  
+  return newDream
+}
 
-  const { data, error } = await supabase
-    .from('dreams')
-    .insert([
-      {
-        user_id: user.id,
-        ...formattedDream
-      }
-    ])
-    .select()
-    .single()
+export async function getDreams(): Promise<Dream[]> {
+  const dreams = getDreamsFromStorage()
+  // Sort by date descending (most recent first)
+  return dreams.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+}
 
-    if (error) {
-      console.error('Supabase error:', error)
-      throw new Error(`Failed to create dream: ${error.message}`)
-    }
+export async function getDreamById(id: string): Promise<Dream | null> {
+  const dreams = getDreamsFromStorage()
+  return dreams.find(dream => dream.id === id) || null
+}
 
-    if (!data) {
-      throw new Error('No data returned from Supabase')
-    }
-
-    return data
-  } catch (error) {
-    console.error('Error in createDream:', error)
-    throw error
+export async function updateDream(id: string, dream: Partial<Omit<Dream, 'id' | 'user_id' | 'created_at' | 'updated_at'>>): Promise<Dream> {
+  const dreams = getDreamsFromStorage()
+  const index = dreams.findIndex(d => d.id === id)
+  
+  if (index === -1) {
+    throw new Error('Dream not found')
   }
+
+  const updatedDream: Dream = {
+    ...dreams[index],
+    ...dream,
+    updated_at: new Date().toISOString(),
+    // Ensure unusual_events is properly formatted if provided
+    unusual_events: dream.unusual_events || dreams[index].unusual_events
+  }
+
+  dreams[index] = updatedDream
+  saveDreamsToStorage(dreams)
+  
+  return updatedDream
 }
 
- 
-
-export async function getDreams() {
-  const supabase = createClient()
+export async function deleteDream(id: string): Promise<boolean> {
+  const dreams = getDreamsFromStorage()
+  const filteredDreams = dreams.filter(d => d.id !== id)
   
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  if (filteredDreams.length === dreams.length) {
+    throw new Error('Dream not found')
+  }
 
-  if (!user) throw new Error('User not authenticated')
-
-  const { data, error } = await supabase
-    .from('dreams')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('date', { ascending: false })
-
-  if (error) throw error
-  return data
-}
-
-export async function getDreamById(id: string) {
-  const supabase = createClient()
-  
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) throw new Error('User not authenticated')
-
-  const { data, error } = await supabase
-    .from('dreams')
-    .select('*')
-    .eq('id', id)
-    .eq('user_id', user.id)
-    .single()
-
-  if (error) throw error
-  return data
-}
-
-export async function updateDream(id: string, dream: Partial<Omit<Dream, 'id' | 'user_id' | 'created_at' | 'updated_at'>>) {
-  const supabase = createClient()
-  
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) throw new Error('User not authenticated')
-
-  const { data, error } = await supabase
-    .from('dreams')
-    .update(dream)
-    .eq('id', id)
-    .eq('user_id', user.id)
-    .select()
-    .single()
-
-  if (error) throw error
-  return data
-}
-
-export async function deleteDream(id: string) {
-  const supabase = createClient()
-  
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) throw new Error('User not authenticated')
-
-  const { error } = await supabase
-    .from('dreams')
-    .delete()
-    .eq('id', id)
-    .eq('user_id', user.id)
-
-  if (error) throw error
+  saveDreamsToStorage(filteredDreams)
   return true
 }
 
-export async function testConnection() {
-  const supabase = createClient()
-  try {
-    const { data, error } = await supabase.from('dreams').select('id').limit(1)
-    if (error) throw error
-    console.log('Supabase connection successful')
-    return true
-  } catch (error) {
-    console.error('Supabase connection failed:', error)
-    return false
-  }
+export async function testConnection(): Promise<boolean> {
+  // Always return true for localStorage
+  return true
 }
 
-export async function deleteAllDreams() {
-  const supabase = createClient()
-  
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) throw new Error('User not authenticated')
-
-  const { error } = await supabase
-    .from('dreams')
-    .delete()
-    .eq('user_id', user.id)
-
-  if (error) throw error
+export async function deleteAllDreams(): Promise<boolean> {
+  saveDreamsToStorage([])
   return true
-} 
+}

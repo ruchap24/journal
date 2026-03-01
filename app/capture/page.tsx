@@ -1,6 +1,5 @@
 "use client"
 
-import { createClient } from "@/utils/supabase/client"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Edit2Icon, Sparkles, Save } from "lucide-react"
@@ -251,26 +250,6 @@ export default function DreamCapture() {
     };
   }, []);
 
-  useEffect(() => {
-  // Test Supabase connection when component mounts
-  const testConnection = async () => {
-    const supabase = createClient()
-    try {
-      const { data, error } = await supabase.from('dreams').select('id').limit(1)
-      if (error) {
-        console.error('Supabase connection test failed:', error)
-        setError('Database connection failed: ' + error.message)
-      } else {
-        console.log('Supabase connection successful')
-      }
-    } catch (err) {
-      console.error('Connection test error:', err)
-      setError('Failed to connect to database')
-    }
-  }
-
-  testConnection()
-}, []) // Empty dependency array means this runs once when component mounts
 
   const handleSave = async () => {
     try {

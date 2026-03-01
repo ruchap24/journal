@@ -1,14 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowLeft, Trash2, AlertTriangle, RefreshCw, InfoIcon, Globe2, User, LogOut } from "lucide-react"
+import { ArrowLeft, Trash2, AlertTriangle, RefreshCw, InfoIcon, Globe2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { BottomNav } from "@/components/bottom-nav"
 import { Button } from "@/components/ui/button"
 import { GradientButton } from "@/components/ui/gradient-button"
 import { forceResetWithAllSampleDreams } from "@/utils/sampleDream"
-import { createClient } from "@/utils/supabase/client"
 import { getDreams, deleteAllDreams } from "@/utils/supabase/dreams"
 import type { Dream } from "@/utils/supabase/dreams"
 import { toast } from "sonner"
@@ -24,7 +23,6 @@ export default function SettingsPage() {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [isClearing, setIsClearing] = useState(false)
   const [language, setLanguage] = useState<'en' | 'hi'>('en') 
-  const [user, setUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [dreams, setDreams] = useState<Dream[]>([])
   const [isLoadingDreams, setIsLoadingDreams] = useState(false)
@@ -37,28 +35,22 @@ export default function SettingsPage() {
     }
   }, [])
 
-  // Load user data and dreams
+  // Load dreams
   useEffect(() => {
-    const loadUserAndDreams = async () => {
+    const loadDreams = async () => {
       try {
         setIsLoading(true)
-        const supabase = createClient()
-        const { data: { user }, error } = await supabase.auth.getUser()
-        if (error) throw error
-        setUser(user)
-
-        // Load dreams
         setIsLoadingDreams(true)
         const fetchedDreams = await getDreams()
         setDreams(fetchedDreams)
       } catch (error) {
-        console.error('Error loading user or dreams:', error)
+        console.error('Error loading dreams:', error)
       } finally {
         setIsLoading(false)
         setIsLoadingDreams(false)
       }
     }
-    loadUserAndDreams()
+    loadDreams()
   }, [])
 
   const translations = {
@@ -68,7 +60,7 @@ export default function SettingsPage() {
       email: "Email",
       signOut: "Sign Out",
       dataPrivacy: "Data Privacy",
-      dataPrivacyDesc: "Your dream data is securely stored in our database using Supabase. All data is encrypted in transit and at rest. Only you can access your dreams through your authenticated account.",
+      dataPrivacyDesc: "Your dream data is stored locally in your browser. All data stays on your device and is never sent to any server.",
       dataManagement: "Data Management",
       clearJournal: "Clear Dream Journal",
       clearJournalDesc: "Delete all your dream entries. This action cannot be undone.",
@@ -103,7 +95,7 @@ export default function SettingsPage() {
       email: "ईमेल",
       signOut: "साइन आउट",
       dataPrivacy: "डेटा गोपनीयता",
-      dataPrivacyDesc: "आपका स्वप्न डेटा सुपाबेस का उपयोग करके हमारे डेटाबेस में सुरक्षित रूप से संग्रहीत है। सभी डेटा एन्क्रिप्टेड है। केवल आप ही अपने प्रमाणित खाते के माध्यम से अपने सपनों तक पहुंच सकते हैं।",
+      dataPrivacyDesc: "आपका स्वप्न डेटा आपके ब्राउज़र में स्थानीय रूप से संग्रहीत है। सभी डेटा आपके डिवाइस पर रहता है और कभी भी किसी सर्वर पर नहीं भेजा जाता है।",
       dataManagement: "डेटा प्रबंधन",
       clearJournal: "स्वप्न जर्नल साफ़ करें",
       clearJournalDesc: "अपनी सभी स्वप्न प्रविष्टियां हटाएं। यह क्रिया पूर्ववत नहीं की जा सकती।",
@@ -183,14 +175,8 @@ export default function SettingsPage() {
   }
 
   const handleSignOut = async () => {
-    try {
-      const supabase = createClient()
-      await supabase.auth.signOut()
-      router.push('/')
-    } catch (error) {
-      console.error('Error signing out:', error)
-      toast.error(language === 'en' ? 'Error signing out' : 'साइन आउट करने में त्रुटि')
-    }
+    // No sign out needed - just redirect to home
+    router.push('/home')
   }
 
   const handlePdfExport = async () => {
@@ -461,30 +447,6 @@ export default function SettingsPage() {
 
       <main className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="space-y-8">
-          {/* User Profile Section */}
-          {!isLoading && user && (
-            <section className="bg-zinc-900/50 rounded-xl border border-zinc-800/50 p-6">
-              <div className="flex items-start gap-3">
-                <div className="mt-1">
-                  <DreamSphere dreamCount={dreams.length} size="md" showGlow={true} />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-2">{translations[language].profile}</h2>
-                  <div className="text-zinc-400 mb-4">
-                    <div className="text-sm">{translations[language].email}</div>
-                    <div className="text-white">{user.email}</div>
-                  </div>
-                  <button
-                    onClick={handleSignOut}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-black/40 hover:bg-black/60 border border-red-500/20 text-red-500 rounded-lg transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    {translations[language].signOut}
-                  </button>
-                </div>
-              </div>
-            </section>
-          )}
 
           {/* Language Selection */}
           <section className="bg-zinc-900/50 rounded-xl border border-zinc-800/50 p-6">

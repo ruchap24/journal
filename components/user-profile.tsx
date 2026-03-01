@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { User } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { createClient } from "@/utils/supabase/client"
+import { getDreams } from "@/utils/supabase/dreams"
 
 interface UserProfileProps {
   language: 'en' | 'hi'
@@ -56,29 +56,15 @@ export function UserProfile({ language, dreamCount: propDreamCount }: UserProfil
     const loadUserData = async () => {
       setIsLoading(true)
       try {
-        const supabase = createClient()
-        
-        // Get current user
-        const { data: { user }, error } = await supabase.auth.getUser()
-        
-        if (error) {
-          console.error("Error fetching user:", error.message)
-          return
-        }
-        
-        setUser(user)
-        
         // If dream count wasn't provided as a prop, load all dreams from local storage
         if (!propDreamCount) {
-          const dreamsString = localStorage.getItem('dreams')
-          if (dreamsString) {
-            const dreams = JSON.parse(dreamsString)
-            setDreamCount(dreams.length)
-            
-            const { level, progress } = calculateLevel(dreams.length)
-            setLevel(level)
-            setProgress(progress)
-          }
+          const dreams = await getDreams()
+          const count = dreams.length
+          setDreamCount(count)
+          
+          const { level, progress } = calculateLevel(count)
+          setLevel(level)
+          setProgress(progress)
         } else {
           const { level, progress } = calculateLevel(propDreamCount)
           setLevel(level)
@@ -130,7 +116,7 @@ export function UserProfile({ language, dreamCount: propDreamCount }: UserProfil
             
             <div className="pt-2">
               <p className="text-sm text-gray-400">
-                {user ? user.email : translations[language].guest}
+                {translations[language].guest}
               </p>
             </div>
           </div>

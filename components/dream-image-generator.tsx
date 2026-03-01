@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { GradientButton } from "@/components/ui/gradient-button"
 import { Loader2, RefreshCw, Info, ZoomIn, ZoomOut, Download, AlertCircle } from "lucide-react"
 import { toast } from "sonner"
-import { createClient } from "@/utils/supabase/client"
+import { checkRemainingCredits, updateImageGenerationUsage } from "@/utils/credits"
 
 interface DreamImageGeneratorProps {
   summary: string
@@ -60,85 +60,14 @@ const translations = {
 };
 
 // Simple rate limiting constants
-const MAX_GENERATIONS_PER_DAY = 2
-const RATE_LIMIT_STORAGE_KEY = "image_generation_usage"
+const MAX_GENERATIONS_PER_DAY = 4
 
 // Helper function to check and update rate limits
 async function checkRateLimit(): Promise<{ allowed: boolean, remaining: number }> {
-  const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  if (!user) {
-    console.log('No user found, returning 0 credits')
-    return { allowed: false, remaining: 0 }
-  }
-
-  const today = new Date().toISOString().split('T')[0]
-  
-  // Try to get today's usage
-  const { data: usage, error } = await supabase
-    .from('image_generation_usage')
-    .select('count')
-    .eq('user_id', user.id)
-    .eq('date', today)
-    .single()
-
-  if (error && error.code !== 'PGRST116') { // PGRST116 is "not found" error
-    console.error('Error checking rate limit:', error)
-    return { allowed: false, remaining: 0 }
-  }
-
-  const currentCount = usage?.count || 0
-  const remaining = MAX_GENERATIONS_PER_DAY - currentCount
-  
-  console.log('Credit check:', {
-    userId: user.id,
-    date: today,
-    currentCount,
-    remaining,
-    allowed: remaining > 0
-  })
-  
+  const { remaining } = await checkRemainingCredits()
   return { 
     allowed: remaining > 0,
     remaining
-  }
-}
-
-// Helper function to increment usage
-async function incrementUsage(): Promise<void> {
-  const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  if (!user) return
-
-  const today = new Date().toISOString().split('T')[0]
-
-  // Try to get existing record first
-  const { data: existingData } = await supabase
-    .from('image_generation_usage')
-    .select('count')
-    .eq('user_id', user.id)
-    .eq('date', today)
-    .single()
-
-  // If no record exists, create one with count 1
-  // If record exists, increment the count
-  const newCount = (existingData?.count || 0) + 1
-
-  const { error: updateError } = await supabase
-    .from('image_generation_usage')
-    .upsert({
-      user_id: user.id,
-      date: today,
-      count: newCount
-    }, {
-      onConflict: 'user_id,date'
-    })
-
-  if (updateError) {
-    console.error('Error incrementing usage:', updateError)
-    throw new Error('Failed to update usage count')
   }
 }
 
@@ -164,24 +93,15 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
   const [remainingGenerations, setRemainingGenerations] = useState<number>(MAX_GENERATIONS_PER_DAY)
   const [showDonateInfo, setShowDonateInfo] = useState(false)
   const [language, setLanguage] = useState<'en' | 'hi'>('en')
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   // Check rate limits and set language
   useEffect(() => {
-    const checkAuth = async () => {
-      const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      setIsLoggedIn(!!user)
-      
-      if (user) {
-        const { remaining } = await checkRateLimit()
-        setRemainingGenerations(remaining)
-      } else {
-        setRemainingGenerations(0)
-      }
+    const checkLimits = async () => {
+      const { remaining } = await checkRateLimit()
+      setRemainingGenerations(remaining)
     }
     
-    checkAuth()
+    checkLimits()
 
     // Set language from localStorage
     const savedLanguage = localStorage.getItem('language') as 'en' | 'hi' | null
@@ -215,13 +135,6 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
   }, [])
 
   const generateImage = async () => {
-    if (!isLoggedIn) {
-      toast.error(translations[language].authRequired, {
-        description: translations[language].pleaseSignIn
-      })
-      return
-    }
-
     // Check rate limit
     const { allowed, remaining } = await checkRateLimit()
     console.log('Rate limit check:', { allowed, remaining })
@@ -254,7 +167,7 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
         setDebugInfo(response.data.debug || null)
         
         // Increment usage count
-        await incrementUsage()
+        await updateImageGenerationUsage()
         setRemainingGenerations(remaining - 1)
         
         toast.success(translations[language].dreamImageGenerated)
@@ -294,12 +207,7 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
       setError(errorMessage)
       
       // Check for specific error types
-      if (error.response?.status === 401) {
-        // Authentication error
-        toast.error(translations[language].authRequired, {
-          description: translations[language].pleaseSignIn
-        })
-      } else if (error.response?.data?.debug?.missingApiKey) {
+      if (error.response?.data?.debug?.missingApiKey) {
         // Missing API key error
         toast.error("Configuration error", {
           description: "The image generation service is not properly configured. Please contact the administrator."
@@ -358,78 +266,65 @@ export function DreamImageGenerator({ summary }: DreamImageGeneratorProps) {
               {translations[language].createAiVisualization}
             </p>
             
-            {!isLoggedIn ? (
-              <div className="bg-zinc-800/50 rounded-lg p-3 text-sm border border-amber-500/20">
+            <div className="text-sm text-zinc-400 mb-4">
+              <div className="flex items-center justify-center gap-1">
+                <span>{translations[language].generationsRemaining} </span>
+                <span className={`font-bold ${remainingGenerations > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {remainingGenerations}
+                </span>
+                <span>/{MAX_GENERATIONS_PER_DAY}</span>
+              </div>
+              
+              {remainingGenerations <= 2 && (
+                <div className="mt-2 text-xs text-amber-300">
+                  <button 
+                    className="underline hover:text-amber-200 transition-colors"
+                    onClick={() => setShowDonateInfo(!showDonateInfo)}
+                  >
+                    {translations[language].supportFeature}
+                  </button>
+                </div>
+              )}
+            </div>
+            
+            {showDonateInfo && (
+              <div className="bg-zinc-800/50 rounded-lg p-3 text-sm border border-amber-500/20 mb-2">
+                <p className="text-zinc-300 mb-2">
+                  {translations[language].dreamVisualizationsPowered}
+                </p>
+                <Button 
+                  onClick={handleDonateClick}
+                  className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-medium"
+                >
+                  💳 {translations[language].supportThisFeature}
+                </Button>
+              </div>
+            )}
+            
+            <GradientButton
+              onClick={generateImage}
+              disabled={isGenerating || remainingGenerations <= 0}
+              className="w-full"
+            >
+              {isGenerating ? (
+                <div className="flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {translations[language].generating}
+                </div>
+              ) : (
+                translations[language].generateVisualization
+              )}
+            </GradientButton>
+            
+            {remainingGenerations === 0 && (
+              <div className="mt-2 bg-zinc-800/50 rounded-lg p-3 text-sm border border-amber-500/20">
                 <div className="flex items-start gap-2">
                   <AlertCircle className="h-5 w-5 text-amber-400 flex-shrink-0 mt-0.5" />
                   <p className="text-zinc-300 text-left">
-                    {translations[language].pleaseSignIn}
+                    {translations[language].limitReached.replace('{limit}', MAX_GENERATIONS_PER_DAY.toString())}
                   </p>
                 </div>
               </div>
-            ) : (
-              <>
-                <div className="text-sm text-zinc-400 mb-4">
-                  <div className="flex items-center justify-center gap-1">
-                    <span>{translations[language].generationsRemaining} </span>
-                    <span className={`font-bold ${remainingGenerations > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                      {remainingGenerations}
-                    </span>
-                    <span>/{MAX_GENERATIONS_PER_DAY}</span>
-                  </div>
-                  
-                  {remainingGenerations <= 2 && (
-                    <div className="mt-2 text-xs text-amber-300">
-                      <button 
-                        className="underline hover:text-amber-200 transition-colors"
-                        onClick={() => setShowDonateInfo(!showDonateInfo)}
-                      >
-                        {translations[language].supportFeature}
-                      </button>
-                    </div>
-                  )}
-                </div>
-                
-                {showDonateInfo && (
-                  <div className="bg-zinc-800/50 rounded-lg p-3 text-sm border border-amber-500/20 mb-2">
-                    <p className="text-zinc-300 mb-2">
-                      {translations[language].dreamVisualizationsPowered}
-                    </p>
-                    <Button 
-                      onClick={handleDonateClick}
-                      className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-medium"
-                    >
-                      💳 {translations[language].supportThisFeature}
-                    </Button>
-                  </div>
-                )}
-                
-                <GradientButton
-                  onClick={generateImage}
-                  disabled={isGenerating || remainingGenerations <= 0}
-                  className="w-full"
-                >
-                  {isGenerating ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      {translations[language].generating}
-                    </div>
-                  ) : (
-                    translations[language].generateVisualization
-                  )}
-                </GradientButton>
-                
-                {remainingGenerations === 0 && (
-                  <div className="mt-2 bg-zinc-800/50 rounded-lg p-3 text-sm border border-amber-500/20">
-                    <div className="flex items-start gap-2">
-                      <AlertCircle className="h-5 w-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                      <p className="text-zinc-300 text-left">
-                        {translations[language].limitReached.replace('{limit}', MAX_GENERATIONS_PER_DAY.toString())}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </>
             )}
           </div>
         )}

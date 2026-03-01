@@ -1,16 +1,9 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { createClient } from "@/utils/supabase/client"
 import { getDreams } from "@/utils/supabase/dreams"
 import { useMemo } from "react" 
 
-
-interface User {
-  id: string;
-  email?: string;
-  // Add other user properties
-}
 
 // Update the useState line
 interface DreamLevelProfileProps {
@@ -88,8 +81,6 @@ export const DREAM_LEVELS: LevelInfo[] = [
 ]
 
 export function DreamLevelProfile({ language, dreamCount: propDreamCount, onLevelChange }: DreamLevelProfileProps) {
-  // Replace the existing user state
-const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [dreamCount, setDreamCount] = useState(propDreamCount || 0)
   const [currentLevel, setCurrentLevel] = useState<LevelInfo>(DREAM_LEVELS[0])
@@ -157,19 +148,7 @@ const [user, setUser] = useState<User | null>(null)
       setIsLoading(true)
       
       try {
-        const supabase = createClient()
-        
-        // Get current user
-        const { data: { user }, error } = await supabase.auth.getUser()
-        
-        if (error) {
-          console.error("Error fetching user:", error.message)
-          return
-        }
-        
-        setUser(user)
-        
-        // If dream count wasn't provided as a prop, fetch dreams from Supabase
+        // If dream count wasn't provided as a prop, fetch dreams from localStorage
         if (!propDreamCount) {
           const fetchedDreams = await getDreams()
           const count = fetchedDreams.length
